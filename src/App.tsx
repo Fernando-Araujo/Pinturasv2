@@ -10,6 +10,7 @@ import {
   IconTinta,
 } from './components/icons'
 import type { ReactNode } from 'react'
+import { AvisoArmazenamento } from './components/AvisoArmazenamento'
 
 // O painel é a rota inicial e entra no bundle principal. As demais são
 // carregadas ao tocar na aba — no iPad isso é imperceptível e corta pela
@@ -64,6 +65,7 @@ export default function App() {
       </aside>
 
       <main className="min-w-0 flex-1 pb-24 lg:pb-0">
+        <AvisoArmazenamento />
         <Suspense
           fallback={<div className="p-10 text-center text-sm text-suave">Carregando…</div>}
         >

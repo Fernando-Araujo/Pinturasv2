@@ -55,6 +55,25 @@ da vergonha com projeção de quanto falta para zerar no ritmo atual, próximas
 pinturas da fila, tintas mais usadas, ritmo dos últimos 12 meses, distribuição
 por status e por facção, e lista de compras.
 
+## Arquivo único (`entrega/Atelie.html`)
+
+Há uma versão empacotada em um único `.html`, com todo o JS, CSS e ícones
+embutidos — nenhum arquivo externo, nenhuma instalação. Regenerar:
+
+```bash
+npm run build:html
+```
+
+**Onde colocar esse arquivo importa mais do que parece.** Servido por um
+endereço `http://` ou `https://` (rede local, ou qualquer host estático), ele
+funciona por completo e salva tudo. Aberto direto como arquivo (`file://`,
+tocando nele no app Arquivos do iPad), o WebKit trata a página como origem
+descartável e pode recusar o IndexedDB — aí dá para navegar e usar o
+laboratório de cores, mas nada do que você cadastrar sobrevive ao fechamento.
+
+O app detecta esse caso na abertura e mostra um aviso vermelho no topo, para
+você nunca perder dados achando que salvou.
+
 ## Como rodar
 
 ```bash
