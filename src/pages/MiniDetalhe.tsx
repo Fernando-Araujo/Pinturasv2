@@ -23,6 +23,8 @@ import {
   type StatusMini,
 } from '../data/warhammer'
 import { Amostra, Barra, Folha, ImagemBlob, Selo, useObjectUrl } from '../components/ui'
+import { FichaCor } from '../components/FichaCor'
+import { IlustracaoBase } from '../components/IlustracaoBase'
 import {
   IconCamera,
   IconCheck,
@@ -295,15 +297,16 @@ export default function MiniDetalhe() {
                 return (
                   <button
                     key={i}
-                    className="flex w-full items-center gap-3 rounded-xl border border-borda bg-superficie2 px-3 py-2.5 text-left"
+                    className="flex w-full items-start gap-3 rounded-xl border border-borda bg-superficie2 px-3 py-2.5 text-left"
                     onClick={() => setEditandoParte(i)}
                   >
                     <Amostra hex={tinta?.hex ?? p.hex} tamanho={36} />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-semibold">{p.parte}</div>
-                      <div className="truncate text-[11px] text-suave">
+                      <div className="mb-1.5 truncate text-[11px] text-suave">
                         {tinta ? `${tinta.marca} ${tinta.nome}` : p.nota || 'Sem tinta vinculada'}
                       </div>
+                      <FichaCor hex={tinta?.hex ?? p.hex} tintas={tintas} />
                     </div>
                   </button>
                 )
@@ -403,19 +406,27 @@ export default function MiniDetalhe() {
             </select>
           </div>
           {receita ? (
-            <>
-              <p className="mb-2 text-xs text-suave">{receita.ambiente}</p>
-              <ol className="space-y-1.5">
-                {receita.passos.map((p, i) => (
-                  <li key={i} className="flex gap-2.5 text-sm leading-relaxed">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-superficie3 text-[11px] font-bold text-suave">
-                      {i + 1}
-                    </span>
-                    {p}
-                  </li>
-                ))}
-              </ol>
-            </>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex shrink-0 flex-col items-center gap-1.5">
+                <IlustracaoBase id={receita.id} tamanho={132} />
+                <span className="text-[10px] uppercase tracking-wide text-suave/70">
+                  como deve ficar
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="mb-2 text-xs text-suave">{receita.ambiente}</p>
+                <ol className="space-y-1.5">
+                  {receita.passos.map((p, i) => (
+                    <li key={i} className="flex gap-2.5 text-sm leading-relaxed">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-superficie3 text-[11px] font-bold text-suave">
+                        {i + 1}
+                      </span>
+                      {p}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
           ) : (
             <p className="text-sm text-suave">Escolha uma receita acima.</p>
           )}
@@ -839,6 +850,9 @@ function FolhaParte({
             <Link className="btn px-3" to={`/laboratorio?cor=${encodeURIComponent(rascunho.hex)}`}>
               <IconRoda size={18} />
             </Link>
+          </div>
+          <div className="mt-2 rounded-xl border border-borda bg-superficie2 px-3 py-2">
+            <FichaCor hex={rascunho.hex} tintas={tintas} />
           </div>
         </div>
 

@@ -9,8 +9,9 @@ no próprio dispositivo (IndexedDB) e ninguém mais tem acesso a eles.
 **Estoque de tintas**
 Cadastro do que você tem na bancada, com nível do pote (cheio / metade /
 acabando / vazio), favoritas, lista de compras e notas por tinta. Vem com um
-catálogo de referência de ~300 tintas (Vallejo Model Color, Game Color e Model
-Air, Citadel, Army Painter, Scale75, AK e P3) — é só marcar o que está na sua
+catálogo de referência de ~470 tintas — Vallejo (Model Color, Game Color,
+**Xpress Color** e Model Air), Citadel (Base, Layer, Shade, **Contrast**, Dry e
+técnicas), Army Painter, Scale75, AK e P3 — é só marcar o que está na sua
 prateleira.
 
 **Equivalência entre marcas**
@@ -19,6 +20,20 @@ calculadas por **ΔE2000** (o padrão da indústria para diferença de cor
 percebida) sobre os valores do catálogo, mais uma tabela de pares clássicos que
 a comunidade já trata como substituição direta. Responde "qual Citadel é essa
 Vallejo?" e vice-versa.
+
+**Três informações em toda cor**
+Em qualquer lugar do app onde aparece uma cor — rampa de luz e sombra,
+harmonia, undercoat, wash, esquema de facção, parte de uma miniatura — vêm
+sempre juntas três linhas:
+
+1. o **hex**, para reproduzir a cor em qualquer lugar;
+2. a **Vallejo mais próxima**, em qualquer linha, com código e ΔE;
+3. a **mais próxima que você tem**, colorida pela qualidade do casamento —
+   verde serve, laranja quebra um galho, vermelho é outra cor.
+
+Para wash e glaze a sugestão Vallejo fica restrita à Xpress Color, que é a
+linha translúcida equivalente: não adianta indicar uma tinta de cobertura para
+um trabalho de contraste.
 
 **Laboratório de cores**
 Roda cromática interativa. Escolhida uma cor, ele entrega:
@@ -43,11 +58,15 @@ prazo, posição na fila e registro de sessões de pintura com as tintas usadas.
 A listagem agrupa por facção, status ou fila.
 
 **Referência de Warhammer**
-38 facções de 40k e Age of Sigmar com esquema de cores clássico e base
-recomendada, e unidades com papel em mesa, pontos, habilidades, cores mais
-usadas, dicas de pintura específicas do modelo e tamanho/terreno de base. Mais
-7 receitas passo a passo de base (escombro urbano, deserto, lama, neve,
-industrial, campo, vitrine).
+38 facções de 40k e Age of Sigmar — todas com esquema de cores clássico e base
+recomendada — e 72 unidades com papel em mesa, pontos, habilidades, cores mais
+usadas, dicas de pintura específicas do modelo e tamanho/terreno de base. Na
+hora de cadastrar uma miniatura, as unidades da facção escolhida aparecem em
+lista: um toque preenche nome, pontos e a ficha inteira.
+
+Mais 7 receitas passo a passo de base (escombro urbano, deserto, lama, neve,
+industrial, campo, vitrine), cada uma com uma **ilustração** da base vista de
+cima, desenhada em SVG a partir das cores e da textura que a receita descreve.
 
 **Painel**
 Modelos pintados sobre o total, tempo médio por peça, horas de bancada, pilha
@@ -113,6 +132,12 @@ com as fotos embutidas) e importar depois, mesclando ou substituindo.
 - **Pontos e regras mudam a cada dataslate.** Os valores são referência de
   partida (40k 10ª edição / AoS 4ª edição) para dar noção de custo relativo.
   Confira o app oficial antes de montar lista para jogar.
+- **A numeração 72.4xx da linha Xpress Color é a parte menos verificada do
+  catálogo.** Os nomes são confiáveis; confira o código no pote antes de
+  comprar.
+- As ilustrações das receitas de base são **desenhos esquemáticos**, não fotos:
+  mostram cores, textura e elementos da receita para você bater o olho, não o
+  resultado exato que a sua mão vai produzir.
 - Você pode adicionar suas próprias tintas e miniaturas à mão a qualquer
   momento; nada depende do catálogo embutido.
 

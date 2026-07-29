@@ -10,6 +10,7 @@ import {
   SISTEMA_LABEL,
   STATUS_INFO,
   STATUS_ORDEM,
+  UNIDADES,
   UNIDADES_POR_FACCAO,
   type Sistema,
   type StatusMini,
@@ -287,7 +288,10 @@ function FolhaAdicionarMini({ aberta, aoFechar }: { aberta: boolean; aoFechar: (
   const escolherUnidade = (id: string) => {
     setUnidadeId(id)
     const u = unidades.find((x) => x.id === id)
-    if (u && !nome.trim()) setNome(u.nome)
+    // Só sobrescreve o nome se ele estiver vazio ou se ainda for o nome
+    // preenchido por outra unidade — um nome escrito à mão nunca se perde.
+    const veioDeUnidade = UNIDADES.some((x) => x.nome === nome.trim())
+    if (u && (!nome.trim() || veioDeUnidade)) setNome(u.nome)
   }
 
   const salvar = async () => {
@@ -371,33 +375,61 @@ function FolhaAdicionarMini({ aberta, aoFechar }: { aberta: boolean; aoFechar: (
               setUnidadeId('')
             }}
           >
-            {faccoesDoSistema.map((f) => (
-              <option key={f.id} value={f.id}>
-                {f.nome}
-              </option>
-            ))}
+            {faccoesDoSistema.map((f) => {
+              const n = (UNIDADES_POR_FACCAO[f.id] ?? []).length
+              return (
+                <option key={f.id} value={f.id}>
+                  {f.nome} {n ? `— ${n} unidades` : ''}
+                </option>
+              )
+            })}
           </select>
           {faccao && <p className="mt-1.5 text-xs leading-relaxed text-suave">{faccao.resumo}</p>}
         </div>
 
         {unidades.length > 0 && (
           <div>
-            <label className="rotulo">Unidade da biblioteca (opcional)</label>
-            <select
-              className="campo"
-              value={unidadeId}
-              onChange={(e) => escolherUnidade(e.target.value)}
-            >
-              <option value="">Não vincular</option>
-              {unidades.map((u) => (
-                <option key={u.id} value={u.id}>
-                  {u.nome} · {u.pontos} pts
-                </option>
-              ))}
-            </select>
-            <p className="mt-1.5 text-xs text-suave">
-              Vincular traz pontos, habilidades, cores e dicas de base para a ficha da peça.
+            <label className="rotulo">
+              Unidades de {faccao?.nome} ({unidades.length})
+            </label>
+            <p className="mb-2 text-xs leading-relaxed text-suave">
+              Toque numa unidade para já trazer nome, pontos, habilidades, cores e dica de base
+              para a ficha. Se a sua peça não estiver na lista, ignore e escreva o nome abaixo.
             </p>
+            <div className="space-y-1.5">
+              {unidades.map((u) => {
+                const sel = unidadeId === u.id
+                return (
+                  <button
+                    key={u.id}
+                    type="button"
+                    onClick={() => escolherUnidade(sel ? '' : u.id)}
+                    className={`flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition ${
+                      sel ? 'border-ouro bg-ouro/10' : 'border-borda bg-superficie2'
+                    }`}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-semibold">{u.nome}</div>
+                      <div className="truncate text-[11px] text-suave">
+                        {u.papel} · {u.modelos} · base {u.baseTamanho}
+                      </div>
+                    </div>
+                    <Selo cor={sel ? 'var(--color-ouro)' : 'var(--color-suave)'} suave>
+                      {u.pontos} pts
+                    </Selo>
+                  </button>
+                )
+              })}
+            </div>
+            {unidadeId && (
+              <button
+                type="button"
+                className="btn btn-fantasma mt-2 w-full text-sm"
+                onClick={() => setUnidadeId('')}
+              >
+                Desvincular — é uma peça avulsa
+              </button>
+            )}
           </div>
         )}
 

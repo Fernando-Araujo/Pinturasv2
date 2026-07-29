@@ -85,6 +85,16 @@ const A = (codigo: string, nome: string, hex: string, tipo: TipoTinta = 'acrilic
   tipo,
 })
 
+const X = (codigo: string, nome: string, hex: string, tipo: TipoTinta = 'contrast'): CatalogoTinta => ({
+  id: `vxc-${codigo}`,
+  marca: 'Vallejo',
+  linha: 'Xpress Color',
+  codigo: `72.${codigo}`,
+  nome,
+  hex,
+  tipo,
+})
+
 const C = (linha: string, nome: string, hex: string, tipo: TipoTinta = 'acrilica'): CatalogoTinta => ({
   id: `cit-${nome.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
   marca: 'Citadel',
@@ -341,6 +351,55 @@ const VALLEJO_GAME_COLOR: CatalogoTinta[] = [
 ]
 
 /* ================================================================== */
+/* VALLEJO — XPRESS COLOR                                              */
+/* ================================================================== */
+
+/**
+ * Tintas de contraste da Vallejo: uma demão sobre base clara já resolve cor,
+ * sombra e luz. São translúcidas, então o hex aqui representa a cor sobre
+ * primer branco/osso — sobre cinza ou preto o resultado escurece bastante.
+ *
+ * Ressalva específica desta linha: os nomes são confiáveis, mas a numeração
+ * 72.4xx é a parte menos verificada de todo o catálogo. Confira o código no
+ * pote antes de comprar — e corrija aqui dentro do app, que fica salvo.
+ */
+const VALLEJO_XPRESS: CatalogoTinta[] = [
+  X('401', 'Templar White', '#e4e2da'),
+  X('402', 'Marble White', '#d8d6cd'),
+  X('403', 'Nuclear Yellow', '#f2d21e'),
+  X('404', 'Imperial Yellow', '#e8ae1c'),
+  X('405', 'Gold Yellow', '#d99a22'),
+  X('406', 'Orange Fire', '#dd6a1e'),
+  X('407', 'Martian Orange', '#c4551f'),
+  X('408', 'Velvet Red', '#a51f2a'),
+  X('409', 'Blood Red', '#8f1620'),
+  X('410', 'Cardinal Purple', '#6e2340'),
+  X('411', 'Mystic Purple', '#5a2f6b'),
+  X('412', 'Gloomy Violet', '#42305e'),
+  X('413', 'Storm Blue', '#2a4a72'),
+  X('414', 'Omega Blue', '#1d3766'),
+  X('415', 'Mystic Blue', '#2f5f9e'),
+  X('416', 'Caribbean Turquoise', '#1a8290'),
+  X('417', 'Snake Green', '#2f7a5e'),
+  X('418', 'Troll Green', '#3f8a45'),
+  X('419', 'Lizard Green', '#5c9a3a'),
+  X('420', 'Plague Green', '#7f9a3c'),
+  X('421', 'Camo Green', '#5f6b3a'),
+  X('422', 'Military Green', '#4a5a34'),
+  X('423', 'Copperhead', '#8a5a2e'),
+  X('424', 'Wasteland Brown', '#6b4a2e'),
+  X('425', 'Dwarf Skin', '#c08a63'),
+  X('426', 'Bag of Bones', '#bfae82'),
+  X('427', 'Mouse Grey', '#7a7d7c'),
+  X('428', 'Space Grey', '#4c5560'),
+  X('429', 'Landser Grey', '#5f6468'),
+  X('430', 'Black Lotus', '#22252a'),
+  X('431', 'Fluid Green', '#3fa06a'),
+  X('432', 'Chameleon Green', '#2f8a6b'),
+  X('457', 'Xpress Medium', '#c9c9c4', 'medium'),
+]
+
+/* ================================================================== */
 /* VALLEJO — MODEL AIR (aerógrafo, útil para basecoat de exército)      */
 /* ================================================================== */
 
@@ -519,6 +578,17 @@ const CITADEL: CatalogoTinta[] = [
   C('Contrast', 'Volupus Pink', '#a02a5a', 'contrast'),
   C('Contrast', 'Magos Purple', '#5a2a5c', 'contrast'),
   C('Contrast', 'Shyish Purple', '#4a2a6b', 'contrast'),
+  C('Contrast', 'Baal Red', '#a5121a', 'contrast'),
+  C('Contrast', 'Flesh Tearers Red', '#8a0f18', 'contrast'),
+  C('Contrast', 'Doomfire Magenta', '#8a2a6b', 'contrast'),
+  C('Contrast', 'Kroxigor Scales', '#2a6b5a', 'contrast'),
+  C('Contrast', 'Dark Angels Green', '#0f4a26', 'contrast'),
+  C('Contrast', 'Gutrippa Flesh', '#6b8a4a', 'contrast'),
+  C('Contrast', 'Imperial Fist', '#e8b41c', 'contrast'),
+  C('Contrast', 'Gryph-Charger Grey', '#8a9aa0', 'contrast'),
+  C('Contrast', 'Celestium Blue', '#3f7aa8', 'contrast'),
+  C('Contrast', 'Black Legion', '#22242a', 'contrast'),
+  C('Contrast', 'Ratling Grime', '#6b5a3f', 'contrast'),
 
   // Dry / técnicas
   C('Dry', 'Longbeard Grey', '#9aa3a6', 'dry'),
@@ -636,6 +706,7 @@ const OUTRAS: CatalogoTinta[] = [
 export const CATALOGO: CatalogoTinta[] = [
   ...VALLEJO_MODEL_COLOR,
   ...VALLEJO_GAME_COLOR,
+  ...VALLEJO_XPRESS,
   ...VALLEJO_MODEL_AIR,
   ...CITADEL,
   ...ARMY_PAINTER,
@@ -708,4 +779,23 @@ export const EQUIVALENCIAS_CURADAS: Record<string, string[]> = {
   'vgc-016': ['cit-xereus-purple', 'ap-alien-purple'],
   'vgc-054': ['cit-leadbelcher', 'ap-gun-metal'],
   'vgc-055': ['cit-retributor-armour', 'ap-greedy-gold'],
+  // Xpress Color x Contrast: linhas concorrentes diretas, feitas para o mesmo
+  // uso. Estes são os pares que a comunidade troca sem pensar duas vezes.
+  'vxc-401': ['cit-apothecary-white'],
+  'vxc-404': ['cit-iyanden-yellow', 'cit-imperial-fist'],
+  'vxc-406': ['cit-gryph-hound-orange'],
+  'vxc-409': ['cit-blood-angels-red', 'cit-baal-red'],
+  'vxc-411': ['cit-shyish-purple', 'cit-magos-purple'],
+  'vxc-414': ['cit-ultramarines-blue'],
+  'vxc-415': ['cit-talassar-blue'],
+  'vxc-416': ['cit-terradon-turquoise', 'cit-akhelian-green'],
+  'vxc-418': ['cit-ork-flesh'],
+  'vxc-420': ['cit-plaguebearer-flesh', 'cit-gutrippa-flesh'],
+  'vxc-421': ['cit-militarum-green', 'cit-creed-camo'],
+  'vxc-423': ['cit-snakebite-leather'],
+  'vxc-424': ['cit-wyldwood', 'cit-cygor-brown'],
+  'vxc-425': ['cit-guilliman-flesh', 'cit-darkoath-flesh'],
+  'vxc-426': ['cit-skeleton-horde', 'cit-aggaros-dunes'],
+  'vxc-428': ['cit-basilicanum-grey'],
+  'vxc-430': ['cit-black-templar', 'cit-black-legion'],
 }

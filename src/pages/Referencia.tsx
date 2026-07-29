@@ -12,8 +12,9 @@ import {
 } from '../data/warhammer'
 import { db, type Tinta } from '../db/db'
 import { Amostra, Aviso, Folha, Segmentado, Selo, Vazio } from '../components/ui'
+import { FichaCor } from '../components/FichaCor'
+import { IlustracaoBase } from '../components/IlustracaoBase'
 import { IconRoda } from '../components/icons'
-import { doMeuEstoque } from '../lib/matching'
 
 export default function Referencia() {
   const [aba, setAba] = useState<'faccoes' | 'bases'>('faccoes')
@@ -138,8 +139,13 @@ export default function Referencia() {
           <div className="grid gap-3 lg:grid-cols-2">
             {RECEITAS_BASE.map((r) => (
               <div key={r.id} className="card p-4">
-                <h3 className="font-bold">{r.nome}</h3>
-                <p className="mb-3 text-xs text-suave">{r.ambiente}</p>
+                <div className="mb-3 flex items-start gap-3.5">
+                  <IlustracaoBase id={r.id} tamanho={92} className="shrink-0" />
+                  <div className="min-w-0">
+                    <h3 className="font-bold">{r.nome}</h3>
+                    <p className="text-xs text-suave">{r.ambiente}</p>
+                  </div>
+                </div>
                 <ol className="space-y-1.5">
                   {r.passos.map((p, i) => (
                     <li key={i} className="flex gap-2.5 text-sm leading-relaxed">
@@ -186,34 +192,27 @@ function FolhaFaccao({ faccao, aoFechar }: { faccao: Faccao | null; aoFechar: ()
         <section>
           <h3 className="titulo-secao mb-2.5">Esquema clássico</h3>
           <div className="space-y-2">
-            {faccao.esquema.map((e, i) => {
-              const perto = doMeuEstoque(e.hex, tintas, 1)[0]
-              return (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 rounded-xl border border-borda bg-superficie2 px-3 py-2.5"
-                >
-                  <Amostra hex={e.hex} tamanho={38} />
-                  <div className="min-w-0 flex-1">
-                    <div className="text-sm font-semibold">{e.parte}</div>
-                    <div className="truncate text-[11px] text-suave">{e.tinta}</div>
-                    {perto && perto.deltaE < 12 && (
-                      <div className="truncate text-[11px] text-turquesa">
-                        Você tem: {perto.tinta.nome} (ΔE {perto.deltaE.toFixed(1)})
-                      </div>
-                    )}
-                  </div>
-                  <Link
-                    className="btn btn-fantasma shrink-0 px-2"
-                    to={`/laboratorio?cor=${encodeURIComponent(e.hex)}`}
-                    onClick={aoFechar}
-                    aria-label="Abrir no laboratório"
-                  >
-                    <IconRoda size={18} />
-                  </Link>
+            {faccao.esquema.map((e, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 rounded-xl border border-borda bg-superficie2 px-3 py-2.5"
+              >
+                <Amostra hex={e.hex} tamanho={38} />
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold">{e.parte}</div>
+                  <div className="mb-1.5 truncate text-[11px] text-suave">{e.tinta}</div>
+                  <FichaCor hex={e.hex} tintas={tintas} />
                 </div>
-              )
-            })}
+                <Link
+                  className="btn btn-fantasma shrink-0 px-2"
+                  to={`/laboratorio?cor=${encodeURIComponent(e.hex)}`}
+                  onClick={aoFechar}
+                  aria-label="Abrir no laboratório"
+                >
+                  <IconRoda size={18} />
+                </Link>
+              </div>
+            ))}
           </div>
         </section>
 

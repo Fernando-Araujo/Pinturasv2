@@ -116,6 +116,60 @@ export function doMeuEstoque(
     .slice(0, limite)
 }
 
+export type ReferenciaCor = {
+  /** A Vallejo mais próxima do catálogo, em qualquer linha. */
+  vallejo?: { tinta: CatalogoTinta; deltaE: number; qualidade: MatchQuality }
+  /** A tinta mais próxima que a pessoa realmente tem na bancada. */
+  minha?: { tinta: Tinta; deltaE: number; qualidade: MatchQuality }
+}
+
+/**
+ * A tinta Vallejo mais próxima de uma cor, considerando todas as linhas
+ * (Model Color, Game Color, Xpress, Model Air).
+ *
+ * `preferirLinha` existe porque a linha certa depende do que a cor representa:
+ * para uma cor de contraste faz sentido sugerir uma Xpress, para uma cor de
+ * cobertura faz sentido sugerir Model Color. Sem isso, a sugestão de um azul
+ * de armadura poderia cair numa tinta translúcida que se comporta muito
+ * diferente na hora de pintar.
+ */
+export function maisProximaVallejo(
+  hex: string,
+  preferirLinha?: string,
+): { tinta: CatalogoTinta; deltaE: number; qualidade: MatchQuality } | undefined {
+  const alvo = lab(hex)
+  let melhor: { tinta: CatalogoTinta; deltaE: number; qualidade: MatchQuality } | undefined
+  for (const t of CATALOGO) {
+    if (t.marca !== 'Vallejo') continue
+    if (t.tipo === 'medium' || t.tipo === 'verniz' || t.tipo === 'primer') continue
+    if (preferirLinha && t.linha !== preferirLinha) continue
+    const dE = deltaE2000(alvo, lab(t.hex))
+    if (!melhor || dE < melhor.deltaE) melhor = { tinta: t, deltaE: dE, qualidade: matchQuality(dE) }
+  }
+  return melhor
+}
+
+/**
+ * As três informações que acompanham qualquer amostra de cor no app:
+ * o hex (que quem chama já tem), a Vallejo mais próxima e a mais próxima do
+ * estoque. Uma cor sem referência de tinta é bonita e inútil na bancada.
+ */
+export function referenciaDeCor(
+  hex: string,
+  tintas: Tinta[],
+  opcoes: { preferirLinha?: string; maxDeltaEstoque?: number } = {},
+): ReferenciaCor {
+  // Sem corte de distância por padrão: a pergunta é "o que eu tenho de mais
+  // perto?", e a resposta honesta é sempre a mais próxima — acompanhada da
+  // etiqueta de qualidade, que deixa claro quando ela está longe demais para
+  // servir. Esconder a tinta só faria a linha parecer quebrada.
+  const { preferirLinha, maxDeltaEstoque = Infinity } = opcoes
+  return {
+    vallejo: maisProximaVallejo(hex, preferirLinha),
+    minha: doMeuEstoque(hex, tintas, 1, { maxDeltaE: maxDeltaEstoque })[0],
+  }
+}
+
 /** Busca textual no catálogo (nome, código, marca, linha). */
 export function buscarNoCatalogo(termo: string, limite = 60): CatalogoTinta[] {
   const q = termo.trim().toLowerCase()
