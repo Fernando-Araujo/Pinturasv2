@@ -5,6 +5,7 @@ import { Cabecalho, Conteudo } from '../App'
 import { db, type Tinta } from '../db/db'
 import { RodaCromatica } from '../components/RodaCromatica'
 import { Amostra, Aviso, Barra, Folha, Segmentado, Selo } from '../components/ui'
+import { BlocoCor, corDaQualidade, FichaCor, LinhaCor } from '../components/FichaCor'
 import { IconBusca, IconGota, IconPincel } from '../components/icons'
 import {
   glazeSugerido,
@@ -53,7 +54,12 @@ export default function Laboratorio() {
   const wash = useMemo(() => washSugerido(hex), [hex])
   const glaze = useMemo(() => glazeSugerido(hex), [hex])
 
-  const proximas = useMemo(() => doMeuEstoque(hex, tintas, 4), [hex, tintas])
+  // Sem corte de distância, para não contradizer a linha "Tenho" das fichas:
+  // mostra sempre as quatro mais próximas e deixa a etiqueta dizer se servem.
+  const proximas = useMemo(
+    () => doMeuEstoque(hex, tintas, 4, { maxDeltaE: Infinity }),
+    [hex, tintas],
+  )
 
   const marcadoresRoda = useMemo(() => {
     const h = harms.find((x) => x.id === (aba === 'harmonias' ? 'complementar' : 'analogas'))
@@ -126,12 +132,16 @@ export default function Laboratorio() {
             </div>
 
             <div className="card p-4">
-              <div className="titulo-secao mb-2.5">O que eu já tenho parecido</div>
+              <div className="titulo-secao mb-2.5">Equivalências desta cor</div>
+              <FichaCor hex={hex} tintas={tintas} />
+            </div>
+
+            <div className="card p-4">
+              <div className="titulo-secao mb-2.5">O mais próximo no meu estoque</div>
               {proximas.length === 0 ? (
                 <p className="text-sm leading-relaxed text-suave">
-                  {tintas.length === 0
-                    ? 'Cadastre tintas no estoque para ver aqui o que da sua bancada chega mais perto desta cor.'
-                    : 'Nada no seu estoque chega perto desta cor. Ou você mistura, ou é candidata à lista de compras.'}
+                  Cadastre tintas no estoque para ver aqui o que da sua bancada chega mais perto
+                  desta cor.
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -145,7 +155,7 @@ export default function Laboratorio() {
                           {tinta.codigo ? ` · ${tinta.codigo}` : ''}
                         </div>
                       </div>
-                      <Selo cor={corQualidade(qualidade)} suave>
+                      <Selo cor={corDaQualidade(qualidade)} suave>
                         {MATCH_LABEL[qualidade]} · {deltaE.toFixed(1)}
                       </Selo>
                     </div>
@@ -195,27 +205,25 @@ export default function Laboratorio() {
 
                 <div className="card p-4">
                   <div className="titulo-secao mb-3">Acabamento</div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="flex items-center gap-3">
-                      <Amostra hex={wash} tamanho={44} translucida />
-                      <div>
-                        <div className="text-sm font-semibold">Wash de sombreamento</div>
-                        <p className="text-xs leading-relaxed text-suave">
-                          Aplicado nos recessos. Escuro, dessaturado e puxado para o frio — nunca
-                          preto puro, que mata a cor.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Amostra hex={glaze} tamanho={44} translucida />
-                      <div>
-                        <div className="text-sm font-semibold">Glaze de unificação</div>
-                        <p className="text-xs leading-relaxed text-suave">
-                          Muito diluído, passado por cima de tudo no fim para juntar as camadas e
-                          devolver saturação.
-                        </p>
-                      </div>
-                    </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {/* Wash e glaze são translúcidos: a sugestão Vallejo fica
+                        restrita à Xpress Color, que é a linha equivalente. */}
+                    <LinhaCor
+                      hex={wash}
+                      tintas={tintas}
+                      titulo="Wash de sombreamento"
+                      descricao="Aplicado nos recessos. Escuro, dessaturado e puxado para o frio — nunca preto puro, que mata a cor."
+                      preferirLinha="Xpress Color"
+                      tamanho={44}
+                    />
+                    <LinhaCor
+                      hex={glaze}
+                      tintas={tintas}
+                      titulo="Glaze de unificação"
+                      descricao="Muito diluído, passado por cima de tudo no fim para juntar as camadas e devolver saturação."
+                      preferirLinha="Xpress Color"
+                      tamanho={44}
+                    />
                   </div>
                 </div>
               </div>
@@ -229,20 +237,17 @@ export default function Laboratorio() {
                       <h3 className="font-bold">{h.nome}</h3>
                       <span className="text-xs text-suave">{h.descricao}</span>
                     </div>
-                    <div className="mb-3 flex gap-2 overflow-hidden rounded-xl">
+                    <div className="mb-3 flex gap-2">
                       {h.cores.map((c, i) => (
-                        <button
+                        <BlocoCor
                           key={`${c}-${i}`}
-                          onClick={() => {
+                          hex={c}
+                          tintas={tintas}
+                          aoClicar={() => {
                             setHex(c)
                             setLum(Math.round(hexToHsl(c).l))
                           }}
-                          className="flex h-16 flex-1 items-end justify-center pb-1 font-mono text-[10px] font-bold transition active:scale-95"
-                          style={{ background: c, color: readableOn(c) }}
-                          title={`Usar ${c}`}
-                        >
-                          {c.toUpperCase()}
-                        </button>
+                        />
                       ))}
                     </div>
                     <p className="text-xs leading-relaxed text-suave">{h.aplicacao}</p>
@@ -278,6 +283,9 @@ export default function Laboratorio() {
                           </span>
                         </div>
                         <p className="mt-2 text-xs leading-relaxed text-suave">{u.porque}</p>
+                        <div className="mt-2 border-t border-borda pt-2">
+                          <FichaCor hex={u.hex} tintas={tintas} />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -338,43 +346,18 @@ function SecaoDegraus({
         {titulo === 'Luzes' ? <IconPincel size={16} /> : <IconGota size={16} />}
         {titulo}
       </div>
-      <div className="space-y-3">
-        {degraus.map((d) => {
-          const perto = doMeuEstoque(d.hex, tintas, 1)[0]
-          return (
-            <div key={d.rotulo} className="flex items-start gap-3">
-              <Amostra hex={d.hex} tamanho={48} />
-              <div className="min-w-0 flex-1">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-sm font-semibold">{d.rotulo}</span>
-                  <span className="font-mono text-[11px] text-suave">{d.hex.toUpperCase()}</span>
-                </div>
-                <p className="mt-0.5 text-xs leading-relaxed text-suave">{d.receita}</p>
-                {perto && (
-                  <p className="mt-1 text-[11px] text-turquesa">
-                    Mais perto no seu estoque: {perto.tinta.nome} (ΔE {perto.deltaE.toFixed(1)})
-                  </p>
-                )}
-              </div>
-            </div>
-          )
-        })}
+      <div className="space-y-4">
+        {degraus.map((d) => (
+          <LinhaCor
+            key={d.rotulo}
+            hex={d.hex}
+            tintas={tintas}
+            titulo={d.rotulo}
+            descricao={d.receita}
+          />
+        ))}
       </div>
     </div>
   )
 }
 
-function corQualidade(q: string) {
-  switch (q) {
-    case 'identica':
-      return '#4aa96c'
-    case 'excelente':
-      return '#6bbf59'
-    case 'boa':
-      return '#d4a537'
-    case 'aproximada':
-      return '#d2792f'
-    default:
-      return '#a05a5a'
-  }
-}
