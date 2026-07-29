@@ -29,7 +29,12 @@ sempre juntas três linhas:
 1. o **hex**, para reproduzir a cor em qualquer lugar;
 2. a **Vallejo mais próxima**, em qualquer linha, com código e ΔE;
 3. a **mais próxima que você tem**, colorida pela qualidade do casamento —
-   verde serve, laranja quebra um galho, vermelho é outra cor.
+   verde serve, laranja quebra um galho, vermelho exige ajuste.
+
+A terceira linha só aparece se a tinta realmente puder substituir a cor
+(ΔE2000 até 11). Acima disso o app diz **"não tenho nada parecido"**, que é
+uma informação útil por si só: sugerir um vermelho no lugar de um azul escuro
+não ajuda ninguém.
 
 Para wash e glaze a sugestão Vallejo fica restrita à Xpress Color, que é a
 linha translúcida equivalente: não adianta indicar uma tinta de cobertura para
@@ -58,11 +63,25 @@ prazo, posição na fila e registro de sessões de pintura com as tintas usadas.
 A listagem agrupa por facção, status ou fila.
 
 **Referência de Warhammer**
-38 facções de 40k e Age of Sigmar — todas com esquema de cores clássico e base
-recomendada — e 72 unidades com papel em mesa, pontos, habilidades, cores mais
-usadas, dicas de pintura específicas do modelo e tamanho/terreno de base. Na
-hora de cadastrar uma miniatura, as unidades da facção escolhida aparecem em
-lista: um toque preenche nome, pontos e a ficha inteira.
+32 facções de 40k e Age of Sigmar — todas com esquema de cores clássico e base
+recomendada — e 158 unidades com papel em mesa, pontos, habilidades, cores mais
+usadas, dicas de pintura específicas do modelo e tamanho/terreno de base,
+incluindo **25 personagens nomeados**. Na hora de cadastrar uma miniatura, as
+unidades da facção aparecem em lista com busca: um toque preenche nome, pontos
+e a ficha inteira.
+
+Seis facções têm catálogo aprofundado, marcadas com ★ e listadas primeiro —
+**Space Marines** (linha genérica), **Ultramarines**, **Chaos Space Marines**,
+**World Eaters**, **Orks** e **Tyranids**. Os capítulos de Space Marines herdam
+a linha genérica dos Astartes: Intercessores são Intercessores em qualquer
+capítulo, muda só a cor. As demais facções têm um recorte das peças mais
+icônicas — o suficiente para cadastrar, não um índice do codex.
+
+**Kill Team**
+17 times de escaramuça com composição por papéis, estilo de jogo, paleta,
+dicas de pintura específicas e uma nota de esforço de pintura de 1 a 5. Kill
+Team é o formato ideal para quem pinta: um time inteiro cabe numa sessão de
+fim de semana.
 
 Mais 7 receitas passo a passo de base (escombro urbano, deserto, lama, neve,
 industrial, campo, vitrine), cada uma com uma **ilustração** da base vista de
@@ -131,7 +150,8 @@ com as fotos embutidas) e importar depois, mesclando ou substituindo.
   ficam salvas.
 - **Pontos e regras mudam a cada dataslate.** Os valores são referência de
   partida (40k 10ª edição / AoS 4ª edição) para dar noção de custo relativo.
-  Confira o app oficial antes de montar lista para jogar.
+  Confira o app oficial antes de montar lista para jogar. O mesmo vale para a
+  composição dos times de Kill Team, que muda a cada edição e errata.
 - **A numeração 72.4xx da linha Xpress Color é a parte menos verificada do
   catálogo.** Os nomes são confiáveis; confira o código no pote antes de
   comprar.

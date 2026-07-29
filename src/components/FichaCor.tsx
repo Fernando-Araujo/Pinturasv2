@@ -66,7 +66,7 @@ export function FichaCor({
               : undefined
           }
         >
-          {ref.minha ? `Tenho: ${ref.minha.tinta.nome}` : 'Tenho: —'}
+          {ref.minha ? `Tenho: ${ref.minha.tinta.nome}` : 'Tenho: nenhuma parecida'}
         </div>
       </div>
     )
@@ -124,7 +124,7 @@ export function FichaCor({
             <span className="text-suave">
               {tintas.length === 0
                 ? 'estoque vazio — cadastre suas tintas'
-                : 'nenhuma tinta disponível'}
+                : 'não tenho nada parecido'}
             </span>
           )}
         </dd>
