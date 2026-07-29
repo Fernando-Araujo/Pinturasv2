@@ -21,7 +21,7 @@ import {
   washSugerido,
   type Degrau,
 } from '../lib/color'
-import { doMeuEstoque } from '../lib/matching'
+import { doMeuEstoque, LIMITE_SUBSTITUTO } from '../lib/matching'
 
 export default function Laboratorio() {
   const [params, setParams] = useSearchParams()
@@ -54,10 +54,10 @@ export default function Laboratorio() {
   const wash = useMemo(() => washSugerido(hex), [hex])
   const glaze = useMemo(() => glazeSugerido(hex), [hex])
 
-  // Sem corte de distância, para não contradizer a linha "Tenho" das fichas:
-  // mostra sempre as quatro mais próximas e deixa a etiqueta dizer se servem.
+  // Mesmo corte usado nas fichas de cor, para os dois painéis não se
+  // contradizerem: ou a tinta serve de substituta, ou não aparece.
   const proximas = useMemo(
-    () => doMeuEstoque(hex, tintas, 4, { maxDeltaE: Infinity }),
+    () => doMeuEstoque(hex, tintas, 4, { maxDeltaE: LIMITE_SUBSTITUTO }),
     [hex, tintas],
   )
 
@@ -140,8 +140,9 @@ export default function Laboratorio() {
               <div className="titulo-secao mb-2.5">O mais próximo no meu estoque</div>
               {proximas.length === 0 ? (
                 <p className="text-sm leading-relaxed text-suave">
-                  Cadastre tintas no estoque para ver aqui o que da sua bancada chega mais perto
-                  desta cor.
+                  {tintas.length === 0
+                    ? 'Cadastre tintas no estoque para ver aqui o que da sua bancada chega mais perto desta cor.'
+                    : 'Você não tem nenhuma tinta parecida com esta cor. Candidata à lista de compras — ou misture.'}
                 </p>
               ) : (
                 <div className="space-y-2">

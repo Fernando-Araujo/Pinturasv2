@@ -8,12 +8,14 @@ import {
   FACCOES_POR_ID,
   progressoDoStatus,
   SISTEMA_LABEL,
+  separarNomeados,
   STATUS_INFO,
   STATUS_ORDEM,
   UNIDADES,
-  UNIDADES_POR_FACCAO,
+  unidadesDaFaccao,
   type Sistema,
   type StatusMini,
+  type Unidade,
 } from '../data/warhammer'
 import { Barra, Folha, ImagemBlob, Segmentado, Selo, Vazio } from '../components/ui'
 import { IconMais, IconMini } from '../components/icons'
@@ -215,6 +217,36 @@ export default function Minis() {
   )
 }
 
+function BotaoUnidade({
+  unidade,
+  selecionada,
+  aoTocar,
+}: {
+  unidade: Unidade
+  selecionada: boolean
+  aoTocar: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={aoTocar}
+      className={`flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition ${
+        selecionada ? 'border-ouro bg-ouro/10' : 'border-borda bg-superficie2'
+      }`}
+    >
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-semibold">{unidade.nome}</div>
+        <div className="truncate text-[11px] text-suave">
+          {unidade.papel} · {unidade.modelos} · base {unidade.baseTamanho}
+        </div>
+      </div>
+      <Selo cor={selecionada ? 'var(--color-ouro)' : 'var(--color-suave)'} suave>
+        {unidade.pontos} pts
+      </Selo>
+    </button>
+  )
+}
+
 const ROTULO_PRIORIDADE: Record<number, string> = {
   1: '1 — Próxima da fila',
   2: '2 — Logo depois',
@@ -280,14 +312,34 @@ function FolhaAdicionarMini({ aberta, aoFechar }: { aberta: boolean; aoFechar: (
   const [status, setStatus] = useState<StatusMini>('desmontada')
   const [prioridade, setPrioridade] = useState(3)
   const [notas, setNotas] = useState('')
+  const [buscaUnidade, setBuscaUnidade] = useState('')
 
-  const faccoesDoSistema = FACCOES.filter((f) => f.sistema === sistema)
-  const unidades = UNIDADES_POR_FACCAO[faccaoId] ?? []
+  // Facções com catálogo aprofundado vêm primeiro: são as que o cadastro
+  // realmente consegue preencher sozinho.
+  const faccoesDoSistema = useMemo(
+    () =>
+      FACCOES.filter((f) => f.sistema === sistema).sort(
+        (a, b) => Number(!!b.destaque) - Number(!!a.destaque) || a.nome.localeCompare(b.nome, 'pt-BR'),
+      ),
+    [sistema],
+  )
   const faccao = FACCOES_POR_ID.get(faccaoId)
+
+  const unidades = useMemo(() => {
+    const todas = unidadesDaFaccao(faccaoId).todas
+    const q = buscaUnidade.trim().toLowerCase()
+    if (!q) return todas
+    return todas.filter((u) => `${u.nome} ${u.papel}`.toLowerCase().includes(q))
+  }, [faccaoId, buscaUnidade])
+
+  const { unidades: unidadesComuns, nomeados } = useMemo(
+    () => separarNomeados(unidades),
+    [unidades],
+  )
 
   const escolherUnidade = (id: string) => {
     setUnidadeId(id)
-    const u = unidades.find((x) => x.id === id)
+    const u = UNIDADES.find((x) => x.id === id)
     // Só sobrescreve o nome se ele estiver vazio ou se ainda for o nome
     // preenchido por outra unidade — um nome escrito à mão nunca se perde.
     const veioDeUnidade = UNIDADES.some((x) => x.nome === nome.trim())
@@ -376,9 +428,10 @@ function FolhaAdicionarMini({ aberta, aoFechar }: { aberta: boolean; aoFechar: (
             }}
           >
             {faccoesDoSistema.map((f) => {
-              const n = (UNIDADES_POR_FACCAO[f.id] ?? []).length
+              const n = unidadesDaFaccao(f.id).todas.length
               return (
                 <option key={f.id} value={f.id}>
+                  {f.destaque ? '★ ' : ''}
                   {f.nome} {n ? `— ${n} unidades` : ''}
                 </option>
               )
@@ -390,37 +443,52 @@ function FolhaAdicionarMini({ aberta, aoFechar }: { aberta: boolean; aoFechar: (
         {unidades.length > 0 && (
           <div>
             <label className="rotulo">
-              Unidades de {faccao?.nome} ({unidades.length})
+              O que tem em {faccao?.nome} ({unidades.length})
             </label>
             <p className="mb-2 text-xs leading-relaxed text-suave">
-              Toque numa unidade para já trazer nome, pontos, habilidades, cores e dica de base
-              para a ficha. Se a sua peça não estiver na lista, ignore e escreva o nome abaixo.
+              Toque para já trazer nome, pontos, habilidades, cores e dica de base para a ficha. Se
+              a sua peça não estiver na lista, ignore e escreva o nome abaixo.
             </p>
-            <div className="space-y-1.5">
-              {unidades.map((u) => {
-                const sel = unidadeId === u.id
-                return (
-                  <button
-                    key={u.id}
-                    type="button"
-                    onClick={() => escolherUnidade(sel ? '' : u.id)}
-                    className={`flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition ${
-                      sel ? 'border-ouro bg-ouro/10' : 'border-borda bg-superficie2'
-                    }`}
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-semibold">{u.nome}</div>
-                      <div className="truncate text-[11px] text-suave">
-                        {u.papel} · {u.modelos} · base {u.baseTamanho}
-                      </div>
-                    </div>
-                    <Selo cor={sel ? 'var(--color-ouro)' : 'var(--color-suave)'} suave>
-                      {u.pontos} pts
-                    </Selo>
-                  </button>
-                )
-              })}
-            </div>
+            <input
+              className="campo mb-2"
+              type="search"
+              placeholder="Filtrar unidade ou personagem…"
+              value={buscaUnidade}
+              onChange={(e) => setBuscaUnidade(e.target.value)}
+            />
+
+            {nomeados.length > 0 && (
+              <>
+                <div className="titulo-secao mb-1.5 mt-1">Personagens nomeados</div>
+                <div className="mb-3 space-y-1.5">
+                  {nomeados.map((u) => (
+                    <BotaoUnidade
+                      key={u.id}
+                      unidade={u}
+                      selecionada={unidadeId === u.id}
+                      aoTocar={() => escolherUnidade(unidadeId === u.id ? '' : u.id)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {unidadesComuns.length > 0 && (
+              <>
+                {nomeados.length > 0 && <div className="titulo-secao mb-1.5">Unidades</div>}
+                <div className="space-y-1.5">
+                  {unidadesComuns.map((u) => (
+                    <BotaoUnidade
+                      key={u.id}
+                      unidade={u}
+                      selecionada={unidadeId === u.id}
+                      aoTocar={() => escolherUnidade(unidadeId === u.id ? '' : u.id)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
             {unidadeId && (
               <button
                 type="button"

@@ -154,16 +154,23 @@ export function maisProximaVallejo(
  * o hex (que quem chama já tem), a Vallejo mais próxima e a mais próxima do
  * estoque. Uma cor sem referência de tinta é bonita e inútil na bancada.
  */
+/**
+ * Até onde uma tinta ainda pode ser chamada de substituta.
+ *
+ * Na escala ΔE2000: até ~3 a diferença só aparece lado a lado, até ~6 muda o
+ * tom mas resolve, até ~11 é uma aproximação que exige ajuste. Acima disso já
+ * é outra cor — sugerir um vermelho no lugar de um azul escuro não ajuda
+ * ninguém, só polui a leitura. Quando nada passa desse corte, o app diz que
+ * você não tem nada parecido, que é uma informação útil por si só.
+ */
+export const LIMITE_SUBSTITUTO = 11
+
 export function referenciaDeCor(
   hex: string,
   tintas: Tinta[],
   opcoes: { preferirLinha?: string; maxDeltaEstoque?: number } = {},
 ): ReferenciaCor {
-  // Sem corte de distância por padrão: a pergunta é "o que eu tenho de mais
-  // perto?", e a resposta honesta é sempre a mais próxima — acompanhada da
-  // etiqueta de qualidade, que deixa claro quando ela está longe demais para
-  // servir. Esconder a tinta só faria a linha parecer quebrada.
-  const { preferirLinha, maxDeltaEstoque = Infinity } = opcoes
+  const { preferirLinha, maxDeltaEstoque = LIMITE_SUBSTITUTO } = opcoes
   return {
     vallejo: maisProximaVallejo(hex, preferirLinha),
     minha: doMeuEstoque(hex, tintas, 1, { maxDeltaE: maxDeltaEstoque })[0],
