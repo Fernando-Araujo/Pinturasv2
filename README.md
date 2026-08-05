@@ -173,7 +173,61 @@ a cor e vira pastel.
 
 ---
 
+# Codex AIGP — Campanha de Estudos
+
+Segundo app do repositório, **totalmente independente do Ateliê**: um único
+arquivo, [`aigp.html`](aigp.html), sem build, sem dependências, sem rede. Serve
+para estudar para a certificação **AIGP** (AI Governance Professional, do IAPP)
+com uma gamificação de Space Marines contra Tyranids.
+
+Publicado junto com o Pages em **`/aigp.html`** — não porque seja para
+compartilhar, mas porque o Safari do iPad só guarda `localStorage` de forma
+confiável em HTTPS; aberto por `file://` ele apaga o progresso sem avisar. Os
+dados nunca saem do dispositivo: o que vai para a web é só o arquivo vazio.
+Adicione à tela de início para virar um app.
+
+## O que ele faz
+
+**Currículo completo** — 275 itens verificáveis em 7 domínios e 40 tópicos,
+cada um com caixa de "já estudei" e **campo de anotação próprio**. Busca por
+texto e filtros (pendentes, estudados, anotados).
+
+**Cronograma em Gantt** — uma fase por domínio, com duração distribuída
+automaticamente pelo peso do domínio na prova e datas editáveis à mão. A barra
+mostra o avanço real dentro da fase, marca o dia de hoje e fica vermelha quando
+o prazo vence sem o domínio fechado.
+
+**Campanha Space Marines × Tyranids**
+
+- Estudar dá XP (1 por minuto), marcar item dá 40, fechar um domínio dá 250.
+- A patente sobe de **Aspirante** a **Mestre do Capítulo** em 10 níveis,
+  calibrados para que o topo custe o Codex inteiro (~18.000 XP).
+- Cada dia sem estudo é um **ataque tyranid**: o dano começa em 8 e cresce 4 a
+  cada dia perdido seguido, até 28. Estudar cura 12 (meta batida) ou 6
+  (parcial). Se a vida chega a zero, o irmão **cai em combate** e só volta
+  estudando.
+- Dias de descanso configuráveis (por padrão, domingo) não sofrem ataque.
+- 10 honras do capítulo, do "Primeiro Sangue" ao "Codex Completo".
+
+A vida **nunca é um contador acumulado**: é recalculada do zero a partir do
+histórico de sessões toda vez que o app abre. Registrar aquela sessão de ontem
+que você esqueceu de lançar desfaz o ataque daquele dia retroativamente.
+
+**Seis temas** (Ultramarines, Blood Angels, Hive Leviathan, Iron Hands,
+Pergaminho e Codex claro) e backup em JSON — exportar, copiar e restaurar.
+
+## Aviso sobre o conteúdo
+
+O currículo é um **roteiro de estudo** montado a partir da estrutura pública do
+exame; os percentuais de peso por domínio são **estimativas** para priorizar o
+esforço. O *Body of Knowledge* e o *Exam Blueprint* oficiais do IAPP são a
+fonte final e mudam de versão para versão — confira no site do IAPP antes de
+fechar seu plano.
+
+---
+
 Warhammer, Warhammer 40.000, Age of Sigmar e os nomes de facções e unidades são
-marcas da Games Workshop. Vallejo, Citadel, Army Painter, Scale75, AK e P3 são
+marcas da Games Workshop. AIGP e IAPP são marcas da International Association
+of Privacy Professionals; este app não tem vínculo com a organização. Vallejo, Citadel, Army Painter, Scale75, AK e P3 são
 marcas de seus respectivos fabricantes. Este é um projeto pessoal, sem vínculo
 com nenhuma delas.

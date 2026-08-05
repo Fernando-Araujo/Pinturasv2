@@ -1,0 +1,2148 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="ultramar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="AIGP" />
+<meta name="theme-color" content="#0a1020" />
+<title>Codex AIGP — Campanha de Estudos</title>
+<style>
+/* ------------------------------------------------------------------ *
+ * Temas. Cada tema define a mesma lista de variáveis; trocar o
+ * atributo data-tema no <html> troca o app inteiro.
+ * ------------------------------------------------------------------ */
+:root {
+  --fundo: #0a1020;
+  --fundo-2: #0d1526;
+  --painel: #121d33;
+  --painel-2: #172542;
+  --borda: #24365c;
+  --texto: #e6ecf7;
+  --texto-fraco: #93a4c4;
+  --acento: #4a8fe7;
+  --acento-suave: #1d3a63;
+  --ouro: #d4af37;
+  --perigo: #e05a4a;
+  --bom: #4fc08d;
+  --alerta: #e0a63a;
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --raio: 14px;
+  --serifada: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --sistema: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+:root[data-tema="sangue"] {
+  --fundo: #120708;
+  --fundo-2: #180a0c;
+  --painel: #210e11;
+  --painel-2: #2d1418;
+  --borda: #46201f;
+  --texto: #f4e7e4;
+  --texto-fraco: #c39b95;
+  --acento: #c8392b;
+  --acento-suave: #4a1613;
+  --ouro: #e8c56a;
+  --perigo: #ff7a5c;
+  --bom: #6fbf7f;
+  --alerta: #e8b04a;
+}
+:root[data-tema="leviathan"] {
+  --fundo: #0e0916;
+  --fundo-2: #130d1e;
+  --painel: #1a1129;
+  --painel-2: #241735;
+  --borda: #3b2757;
+  --texto: #ece4f7;
+  --texto-fraco: #a798c0;
+  --acento: #a06be0;
+  --acento-suave: #2f1c4d;
+  --ouro: #cbe36a;
+  --perigo: #ff6b8a;
+  --bom: #7ddba0;
+  --alerta: #e5b755;
+}
+:root[data-tema="ferro"] {
+  --fundo: #0d0f10;
+  --fundo-2: #121516;
+  --painel: #191d1f;
+  --painel-2: #22282a;
+  --borda: #343b3e;
+  --texto: #e8edee;
+  --texto-fraco: #98a4a8;
+  --acento: #8fa3ad;
+  --acento-suave: #2b3438;
+  --ouro: #c9a227;
+  --perigo: #e2664f;
+  --bom: #5cbf94;
+  --alerta: #d9a441;
+}
+:root[data-tema="pergaminho"] {
+  --fundo: #e9ded0;
+  --fundo-2: #f0e7db;
+  --painel: #fbf5ea;
+  --painel-2: #f3e9d8;
+  --borda: #cdbca0;
+  --texto: #2c2417;
+  --texto-fraco: #6d6047;
+  --acento: #8a5320;
+  --acento-suave: #e5d5ba;
+  --ouro: #9a7514;
+  --perigo: #b23a2c;
+  --bom: #2f7d52;
+  --alerta: #9a6c14;
+  --sombra: 0 8px 22px rgba(80, 60, 30, 0.16);
+}
+:root[data-tema="codex"] {
+  --fundo: #f2f5f9;
+  --fundo-2: #e9eef5;
+  --painel: #ffffff;
+  --painel-2: #eef2f8;
+  --borda: #cdd7e5;
+  --texto: #101724;
+  --texto-fraco: #5a6779;
+  --acento: #1d4ed8;
+  --acento-suave: #dbe5fb;
+  --ouro: #9a6c00;
+  --perigo: #c0392b;
+  --bom: #17794a;
+  --alerta: #a06a00;
+  --sombra: 0 8px 22px rgba(20, 40, 80, 0.1);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--sistema);
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.5;
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow-wrap: break-word;
+}
+h1, h2, h3, h4 { font-family: var(--serifada); font-weight: 600; margin: 0; letter-spacing: 0.01em; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--acento); }
+
+/* -------------------------------- topo -------------------------------- */
+.topo {
+  position: sticky; top: 0; z-index: 40;
+  background: color-mix(in srgb, var(--fundo) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--borda);
+  padding-top: env(safe-area-inset-top);
+}
+.topo-linha {
+  max-width: 1180px; margin: 0 auto;
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 16px;
+}
+.marca { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.marca b { font-family: var(--serifada); font-size: 20px; letter-spacing: 0.04em; }
+.marca span { color: var(--texto-fraco); font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; }
+.topo-dir { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+.abas { max-width: 1180px; margin: 0 auto; display: flex; gap: 6px; padding: 0 10px 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.abas::-webkit-scrollbar { display: none; }
+.aba {
+  border: 1px solid transparent; background: transparent; color: var(--texto-fraco);
+  padding: 9px 14px; border-radius: 999px; font-size: 14px; white-space: nowrap;
+  min-height: 40px; display: inline-flex; align-items: center; gap: 7px;
+}
+.aba[aria-selected="true"] { background: var(--acento-suave); color: var(--texto); border-color: var(--borda); }
+
+/* ------------------------------ estrutura ----------------------------- */
+main { max-width: 1180px; margin: 0 auto; padding: 18px 16px 60px; }
+.vista { display: none; }
+.vista.ativa { display: block; }
+.grade { display: grid; gap: 16px; }
+@media (min-width: 860px) { .grade-2 { grid-template-columns: 1fr 1fr; } .grade-3 { grid-template-columns: repeat(3, 1fr); } }
+
+.cartao {
+  background: var(--painel); border: 1px solid var(--borda);
+  border-radius: var(--raio); padding: 16px; box-shadow: var(--sombra);
+}
+.cartao > h3 { font-size: 17px; margin-bottom: 4px; }
+.legenda { color: var(--texto-fraco); font-size: 13px; }
+.titulo-secao {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em;
+  color: var(--texto-fraco); margin: 26px 0 10px;
+}
+
+/* ------------------------------- botões ------------------------------- */
+.btn {
+  border: 1px solid var(--borda); background: var(--painel-2); color: var(--texto);
+  padding: 10px 15px; border-radius: 10px; min-height: 42px;
+  display: inline-flex; align-items: center; gap: 8px; font-size: 14px;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primario { background: var(--acento); border-color: var(--acento); color: #fff; font-weight: 600; }
+:root[data-tema="pergaminho"] .btn-primario, :root[data-tema="codex"] .btn-primario { color: #fff; }
+.btn-fantasma { background: transparent; }
+.btn-perigo { border-color: var(--perigo); color: var(--perigo); background: transparent; }
+.btn-mini { min-height: 34px; padding: 5px 10px; font-size: 13px; border-radius: 8px; }
+
+select, input[type="text"], input[type="date"], input[type="number"], textarea {
+  background: var(--fundo-2); border: 1px solid var(--borda); color: var(--texto);
+  border-radius: 10px; padding: 9px 11px; min-height: 42px; width: 100%;
+}
+textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
+label.campo { display: block; }
+label.campo > span { display: block; font-size: 12px; color: var(--texto-fraco); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.1em; }
+.linha-campos { display: grid; gap: 12px; }
+@media (min-width: 620px) { .linha-campos.tres { grid-template-columns: repeat(3, 1fr); } .linha-campos.dois { grid-template-columns: 1fr 1fr; } }
+
+/* ------------------------------ campanha ------------------------------ */
+.painel-heroi { display: grid; gap: 18px; align-items: center; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .painel-heroi { grid-template-columns: 220px 1fr; } }
+.retrato {
+  position: relative; background: radial-gradient(circle at 50% 35%, var(--acento-suave), transparent 70%);
+  border-radius: 16px; padding: 8px; display: flex; justify-content: center;
+}
+.retrato svg { width: 100%; max-width: 210px; height: auto; display: block; }
+.patente { font-family: var(--serifada); font-size: 24px; }
+.patente-linha { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.selo {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em;
+  border: 1px solid var(--borda); border-radius: 999px; padding: 3px 10px; color: var(--texto-fraco);
+}
+.selo.ok { color: var(--bom); border-color: color-mix(in srgb, var(--bom) 50%, var(--borda)); }
+.selo.aviso { color: var(--alerta); border-color: color-mix(in srgb, var(--alerta) 50%, var(--borda)); }
+.selo.mal { color: var(--perigo); border-color: color-mix(in srgb, var(--perigo) 50%, var(--borda)); }
+
+.barra { height: 14px; border-radius: 999px; background: var(--fundo-2); border: 1px solid var(--borda); overflow: hidden; }
+.barra > i { display: block; height: 100%; border-radius: 999px; transition: width 0.5s ease; }
+.barra-vida > i { background: linear-gradient(90deg, var(--bom), color-mix(in srgb, var(--bom) 60%, var(--acento))); }
+.barra-vida.ferido > i { background: linear-gradient(90deg, var(--alerta), var(--perigo)); }
+.barra-vida.critico > i { background: linear-gradient(90deg, var(--perigo), #ff3b2f); }
+.barra-xp > i { background: linear-gradient(90deg, var(--acento), var(--ouro)); }
+.rotulo-barra { display: flex; justify-content: space-between; font-size: 12px; color: var(--texto-fraco); margin: 0 2px 5px; }
+.rotulo-barra b { color: var(--texto); font-variant-numeric: tabular-nums; }
+
+.numeros { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 620px) { .numeros { grid-template-columns: repeat(4, 1fr); } }
+.numero { background: var(--painel-2); border: 1px solid var(--borda); border-radius: 12px; padding: 12px; text-align: center; }
+.numero b { display: block; font-size: 24px; font-family: var(--serifada); font-variant-numeric: tabular-nums; }
+.numero span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-fraco); }
+
+.enxame { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; min-height: 34px; }
+.enxame svg { width: 30px; height: 30px; opacity: 0.9; }
+
+.registro-combate { max-height: 260px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.registro-combate li {
+  list-style: none; padding: 9px 0; border-bottom: 1px dashed var(--borda);
+  font-size: 13px; display: flex; gap: 10px; align-items: flex-start;
+}
+.registro-combate li:last-child { border-bottom: 0; }
+.registro-combate time { color: var(--texto-fraco); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dano { color: var(--perigo); font-weight: 600; }
+.cura { color: var(--bom); font-weight: 600; }
+
+.honras { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.honra {
+  border: 1px solid var(--borda); border-radius: 12px; padding: 10px; background: var(--painel-2);
+  opacity: 0.42; text-align: center;
+}
+.honra.ganha { opacity: 1; border-color: color-mix(in srgb, var(--ouro) 55%, var(--borda)); }
+.honra .icone { font-size: 22px; }
+.honra b { display: block; font-size: 13px; font-family: var(--serifada); }
+.honra small { color: var(--texto-fraco); font-size: 11px; }
+
+/* ----------------------------- currículo ------------------------------ */
+.ferramentas { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.ferramentas .busca { flex: 1 1 240px; }
+
+.dominio { border: 1px solid var(--borda); border-radius: var(--raio); background: var(--painel); margin-bottom: 14px; overflow: hidden; }
+.dominio-cabeca {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+  background: var(--painel-2); cursor: pointer; user-select: none;
+  list-style: none;
+}
+.dominio-cabeca::-webkit-details-marker { display: none; }
+.dominio-cabeca .seta { color: var(--texto-fraco); transition: transform 0.2s; font-size: 12px; }
+.dominio[open] .dominio-cabeca .seta { transform: rotate(90deg); }
+.dominio-cabeca h3 { font-size: 16px; flex: 1; min-width: 0; }
+.dominio-cabeca .pct { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--texto-fraco); white-space: nowrap; }
+.dominio-corpo { padding: 6px 16px 16px; }
+.mini-barra { height: 5px; background: var(--fundo-2); border-radius: 999px; overflow: hidden; margin-top: 8px; }
+.mini-barra > i { display: block; height: 100%; background: var(--acento); }
+
+.topico { margin-top: 16px; }
+.topico > h4 { font-size: 14px; color: var(--texto); display: flex; gap: 8px; align-items: baseline; }
+.topico > h4 .cod { color: var(--acento); font-family: var(--sistema); font-size: 12px; letter-spacing: 0.06em; }
+.itens { list-style: none; margin: 8px 0 0; padding: 0; }
+.item { border-top: 1px solid var(--borda); }
+.item-linha { display: flex; gap: 12px; align-items: flex-start; padding: 10px 2px; }
+.marca-caixa {
+  flex: 0 0 auto; width: 26px; height: 26px; margin-top: 1px; border-radius: 7px;
+  border: 2px solid var(--borda); background: var(--fundo-2);
+  display: inline-flex; align-items: center; justify-content: center; color: transparent; font-size: 15px;
+}
+.item.feito .marca-caixa { background: var(--bom); border-color: var(--bom); color: #06210f; }
+.item-texto { flex: 1; font-size: 14.5px; min-width: 0; }
+.item.feito .item-texto { color: var(--texto-fraco); text-decoration: line-through; text-decoration-thickness: 1px; }
+.btn-nota { flex: 0 0 auto; border: 1px solid var(--borda); background: transparent; border-radius: 8px; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; color: var(--texto-fraco); }
+.btn-nota.tem { color: var(--ouro); border-color: color-mix(in srgb, var(--ouro) 50%, var(--borda)); }
+.nota-caixa { padding: 0 0 12px 38px; }
+.nota-caixa[hidden] { display: none; }
+
+/* ------------------------------- gantt -------------------------------- */
+.gantt-envelope { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--painel); }
+.gantt { min-width: 720px; padding: 12px 14px 16px; }
+.gantt-cabeca { display: flex; border-bottom: 1px solid var(--borda); padding-bottom: 6px; margin-bottom: 6px; }
+.gantt-rotulo { flex: 0 0 200px; font-size: 12px; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.12em; }
+.gantt-escala { flex: 1; position: relative; height: 30px; }
+.marca-semana { position: absolute; top: 0; font-size: 10.5px; color: var(--texto-fraco); border-left: 1px solid var(--borda); padding-left: 4px; height: 100%; white-space: nowrap; }
+.gantt-linha { display: flex; align-items: center; padding: 7px 0; border-bottom: 1px dashed color-mix(in srgb, var(--borda) 60%, transparent); }
+.gantt-linha:last-child { border-bottom: 0; }
+.gantt-linha .gantt-rotulo { font-size: 13px; color: var(--texto); text-transform: none; letter-spacing: 0; padding-right: 12px; }
+.gantt-trilho { flex: 1; position: relative; height: 30px; background: var(--fundo-2); border-radius: 8px; }
+.gantt-barra {
+  position: absolute; top: 3px; height: 24px; border-radius: 7px;
+  background: var(--acento-suave); border: 1px solid var(--acento);
+  overflow: hidden; display: flex; align-items: center;
+}
+.gantt-barra > i { position: absolute; inset: 0 auto 0 0; background: color-mix(in srgb, var(--acento) 65%, transparent); }
+.gantt-barra > b { position: relative; font-size: 11px; padding: 0 7px; font-weight: 600; white-space: nowrap; }
+.gantt-barra.concluida { border-color: var(--bom); }
+.gantt-barra.concluida > i { background: color-mix(in srgb, var(--bom) 55%, transparent); }
+.gantt-barra.atrasada { border-color: var(--perigo); }
+.linha-hoje { position: absolute; top: -7px; bottom: -7px; width: 2px; background: var(--ouro); z-index: 3; }
+/* O rótulo aparece uma única vez, na primeira faixa. */
+.gantt-linha:first-of-type .linha-hoje::after {
+  content: "hoje"; position: absolute; top: -15px; left: -12px; font-size: 10px; color: var(--ouro);
+}
+.editor-fases { display: grid; gap: 10px; margin-top: 14px; }
+.editor-fase { display: grid; gap: 8px; grid-template-columns: 1fr; align-items: center; border: 1px solid var(--borda); border-radius: 10px; padding: 10px; background: var(--painel-2); }
+@media (min-width: 700px) { .editor-fase { grid-template-columns: 1fr 160px 160px; } }
+
+/* ------------------------------- tabela ------------------------------- */
+table.lista { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.lista th, table.lista td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+table.lista th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-fraco); font-weight: 600; }
+table.lista td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* -------------------------------- modal ------------------------------- */
+.veu { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 90; display: flex; align-items: flex-end; justify-content: center; padding: 0; }
+@media (min-width: 640px) { .veu { align-items: center; padding: 20px; } }
+.veu[hidden] { display: none; }
+.modal {
+  background: var(--painel); border: 1px solid var(--borda); width: 100%; max-width: 520px;
+  border-radius: var(--raio) var(--raio) 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
+  max-height: 92vh; overflow-y: auto; box-shadow: var(--sombra);
+}
+@media (min-width: 640px) { .modal { border-radius: var(--raio); padding-bottom: 18px; } }
+.modal h3 { margin-bottom: 12px; }
+.modal-acoes { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap; }
+
+/* ------------------------------- brinde ------------------------------- */
+.brinde {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom));
+  background: var(--painel-2); border: 1px solid var(--ouro); color: var(--texto);
+  padding: 11px 18px; border-radius: 999px; z-index: 120; box-shadow: var(--sombra);
+  font-size: 14px; max-width: 92vw; text-align: center;
+}
+.brinde[hidden] { display: none; }
+
+.rodape { text-align: center; color: var(--texto-fraco); font-size: 12px; padding: 30px 16px 10px; }
+.aviso { border-left: 3px solid var(--alerta); background: var(--painel-2); padding: 10px 12px; border-radius: 0 10px 10px 0; font-size: 13px; color: var(--texto-fraco); }
+.pilhas { display: flex; flex-wrap: wrap; gap: 8px; }
+@media print { .topo, .abas, .ferramentas, .btn { display: none !important; } .vista { display: block !important; } body { background: #fff; color: #000; } }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-linha">
+    <div class="marca">
+      <b>CODEX AIGP</b>
+      <span>Campanha de Estudos</span>
+    </div>
+    <div class="topo-dir">
+      <select id="seletorTema" aria-label="Tema visual" style="width:auto;min-width:150px">
+        <option value="ultramar">Ultramarines</option>
+        <option value="sangue">Blood Angels</option>
+        <option value="leviathan">Hive Leviathan</option>
+        <option value="ferro">Iron Hands</option>
+        <option value="pergaminho">Pergaminho</option>
+        <option value="codex">Codex claro</option>
+      </select>
+      <button class="btn btn-primario" id="btnRegistrar">⚔︎ Registrar estudo</button>
+    </div>
+  </div>
+  <nav class="abas" role="tablist">
+    <button class="aba" role="tab" data-vista="campanha" aria-selected="true">🛡 Campanha</button>
+    <button class="aba" role="tab" data-vista="curriculo" aria-selected="false">📖 Currículo</button>
+    <button class="aba" role="tab" data-vista="cronograma" aria-selected="false">🗓 Cronograma</button>
+    <button class="aba" role="tab" data-vista="registro" aria-selected="false">📜 Registro</button>
+    <button class="aba" role="tab" data-vista="ajustes" aria-selected="false">⚙︎ Ajustes</button>
+  </nav>
+</header>
+
+<main>
+  <section class="vista ativa" id="vista-campanha"></section>
+  <section class="vista" id="vista-curriculo"></section>
+  <section class="vista" id="vista-cronograma"></section>
+  <section class="vista" id="vista-registro"></section>
+  <section class="vista" id="vista-ajustes"></section>
+  <p class="rodape">Tudo fica salvo só neste iPad, neste navegador. Faça backup em Ajustes de vez em quando.</p>
+</main>
+
+<div class="veu" id="veu" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+</div>
+<div class="brinde" id="brinde" hidden></div>
+
+<script>
+"use strict";
+
+/* =====================================================================
+ * CURRÍCULO AIGP
+ * Estrutura: domínio → tópico → item verificável.
+ * Os pesos são estimativas de distribuição do exame, para priorizar o
+ * estudo — confirme sempre no Body of Knowledge oficial do IAPP.
+ * ===================================================================== */
+const CURRICULO = [
+  {
+    id: "d1",
+    numero: "I",
+    titulo: "Fundamentos da Inteligência Artificial",
+    peso: 12,
+    resumo: "Vocabulário, como os modelos funcionam e o contexto histórico. É a base que sustenta todo o resto da prova.",
+    topicos: [
+      {
+        titulo: "Conceitos e definições essenciais",
+        itens: [
+          "Definição de sistema de IA na OCDE e no EU AI Act (autonomia, inferência, saídas que influenciam ambientes)",
+          "IA restrita (ANI) x IA geral (AGI) x superinteligência",
+          "IA simbólica / sistemas especialistas x aprendizado de máquina x IA generativa",
+          "Aprendizado supervisionado, não supervisionado, semissupervisionado e por reforço",
+          "Aprendizado por reforço com feedback humano (RLHF) e alinhamento",
+          "Redes neurais, camadas, pesos, funções de ativação e deep learning",
+          "Transformers, mecanismo de atenção, tokens, embeddings e janela de contexto",
+          "Modelos de fundação, LLMs e IA de propósito geral (GPAI)",
+          "Modelos multimodais, visão computacional, PLN, reconhecimento de fala e robótica",
+          "Fine-tuning, RAG, engenharia de prompt e agentes de IA",
+          "Diferença entre sistema de IA e automação determinística por regras",
+        ],
+      },
+      {
+        titulo: "Como um modelo é construído e avaliado",
+        itens: [
+          "Fluxo dado → treinamento → modelo → inferência → realimentação",
+          "Divisão treino / validação / teste e validação cruzada",
+          "Overfitting, underfitting e o trade-off viés-variância",
+          "Parâmetros x hiperparâmetros, épocas e função de perda",
+          "Métricas: acurácia, precisão, recall, F1, AUC-ROC e matriz de confusão",
+          "Por que acurácia alta pode esconder desempenho péssimo em subgrupos",
+          "Modelos caixa-preta x interpretáveis; XAI, LIME e SHAP",
+          "Alucinação, deriva de dados e de conceito (drift), degradação de desempenho",
+          "Não determinismo, temperatura e reprodutibilidade de resultados",
+        ],
+      },
+      {
+        titulo: "A pilha tecnológica da IA",
+        itens: [
+          "Infraestrutura: GPUs/TPUs, nuvem, custo computacional e consumo de energia",
+          "Camada de dados: coleta, pipelines, rotulagem, dados sintéticos e feature stores",
+          "Camada de modelos: proprietários x open-weights, APIs e MLOps",
+          "Camada de aplicação: copilotos, chatbots, sistemas de decisão e sistemas embarcados",
+          "Onde cada camada cria pontos de controle para governança",
+        ],
+      },
+      {
+        titulo: "História e contexto socioeconômico",
+        itens: [
+          "Dartmouth (1956), os invernos da IA e a retomada com deep learning",
+          "Marcos: Deep Blue, ImageNet/AlexNet, AlphaGo, transformers (2017), ChatGPT (2022)",
+          "Efeitos econômicos: produtividade, deslocamento e recomposição de empregos",
+          "Concentração de mercado, acesso a computação e geopolítica da IA",
+          "Por que a corrida competitiva pressiona a governança responsável",
+        ],
+      },
+    ],
+  },
+  {
+    id: "d2",
+    numero: "II",
+    titulo: "Impactos da IA nas Pessoas e Princípios de IA Responsável",
+    peso: 13,
+    resumo: "Danos concretos, origens de viés e as características que tornam um sistema confiável. Domínio muito cobrado em cenários.",
+    topicos: [
+      {
+        titulo: "Riscos e danos a indivíduos",
+        itens: [
+          "Danos a direitos fundamentais, liberdades civis e devido processo",
+          "Danos econômicos: crédito, emprego, seguros, preços personalizados",
+          "Perda de acesso a serviços essenciais (saúde, benefícios, moradia, educação)",
+          "Danos físicos e à segurança: veículos autônomos, dispositivos médicos, robótica",
+          "Danos psicológicos: manipulação, dark patterns, dependência, assédio",
+          "Danos à privacidade: inferência sensível, reidentificação, vigilância",
+          "Danos reputacionais e difamação por saídas incorretas",
+        ],
+      },
+      {
+        titulo: "Riscos a grupos, à sociedade e à organização",
+        itens: [
+          "Discriminação sistêmica contra grupos protegidos e efeitos cumulativos",
+          "Vigilância em massa, reconhecimento facial e efeito inibidor (chilling effect)",
+          "Desinformação, deepfakes e erosão da confiança pública e eleitoral",
+          "Homogeneização cultural, perda de diversidade linguística e colapso de modelo",
+          "Custo ambiental: energia, água e emissões do treinamento e da inferência",
+          "Riscos organizacionais: jurídico, reputacional, financeiro, operacional e de segurança",
+        ],
+      },
+      {
+        titulo: "Tipos e fontes de viés",
+        itens: [
+          "Viés de dados: amostragem, histórico, representatividade, rotulagem e medição",
+          "Viés algorítmico e viés na escolha da função objetivo",
+          "Viés humano e cognitivo: automação, confirmação, ancoragem, groupthink",
+          "Viés de implantação e loops de retroalimentação que reforçam o erro",
+          "Variáveis proxy para atributos protegidos (CEP, nome, escola)",
+          "Tratamento desigual (disparate treatment) x impacto desigual (disparate impact)",
+          "Por que remover o atributo protegido não elimina a discriminação",
+        ],
+      },
+      {
+        titulo: "Características de IA confiável",
+        itens: [
+          "Válida e confiável (valid and reliable) — a base de todas as demais",
+          "Segura (safe): não causa dano físico, psicológico ou ambiental",
+          "Resiliente e robusta a condições adversas e entradas inesperadas",
+          "Segura em cibersegurança (secure) e protegida contra ataques adversariais",
+          "Responsabilizável (accountable) e transparente",
+          "Explicável e interpretável, com explicação adequada ao público",
+          "Privacidade reforçada (privacy-enhanced) por design",
+          "Justa, com gestão de vieses nocivos",
+          "Supervisão humana significativa: human-in-the-loop, on-the-loop, in-command",
+          "Sustentabilidade, bem-estar social e beneficência",
+          "Contestabilidade e reparação para quem foi afetado",
+        ],
+      },
+      {
+        titulo: "Guias éticos existentes e emergentes",
+        itens: [
+          "Princípios de IA da OCDE e o framework OCDE de classificação de sistemas",
+          "Recomendação da UNESCO sobre a Ética da IA",
+          "Diretrizes Éticas do HLEG da UE para IA confiável e a lista ALTAI",
+          "Declaração de Montreal, Princípios de Asilomar, Consenso de Pequim",
+          "Bletchley Declaration, cúpulas de segurança em IA e Processo de Hiroshima do G7",
+          "Convergências (transparência, justiça, supervisão) e divergências entre os frameworks",
+          "Limites da autorregulação e o problema do ethics washing",
+        ],
+      },
+    ],
+  },
+  {
+    id: "d3",
+    numero: "III",
+    titulo: "Ciclo de Vida do Desenvolvimento de IA",
+    peso: 12,
+    resumo: "Do planejamento ao descomissionamento: onde entram os controles de governança em cada fase.",
+    topicos: [
+      {
+        titulo: "Planejamento e design",
+        itens: [
+          "Definir propósito, caso de uso, população afetada e valor de negócio",
+          "Perguntar antes de tudo: este problema exige IA? Qual a alternativa não algorítmica?",
+          "Critérios de sucesso, requisitos de desempenho e limites de uso aceitável",
+          "Triagem inicial de risco e classificação do sistema no inventário",
+          "Design centrado no humano e envolvimento de stakeholders afetados",
+          "Privacy by design, security by design e ethics by design aplicados à IA",
+          "Definição de papéis: quem aprova, quem opera, quem responde",
+        ],
+      },
+      {
+        titulo: "Dados: coleta, preparação e governança",
+        itens: [
+          "Fontes de dados, base legal, licenciamento e legitimidade de web scraping",
+          "Qualidade: completude, acurácia, atualidade, consistência e representatividade",
+          "Rotulagem e anotação: instruções, concordância entre anotadores, condições de trabalho",
+          "Limpeza, normalização, engenharia de atributos e balanceamento de classes",
+          "Minimização, anonimização, pseudonimização e tecnologias de reforço de privacidade (PETs)",
+          "Privacidade diferencial, aprendizado federado e computação criptografada",
+          "Dados sintéticos: quando ajudam e quais riscos introduzem",
+          "Linhagem, proveniência, versionamento e datasheets for datasets",
+        ],
+      },
+      {
+        titulo: "Treinamento, ajuste e teste",
+        itens: [
+          "Construir, comprar ou ajustar: critérios de decisão e implicações de governança",
+          "Seleção de arquitetura e justificativa documentada da escolha",
+          "Ajuste de hiperparâmetros, fine-tuning e alinhamento por RLHF",
+          "Guardrails, filtros de conteúdo e restrições de sistema (system prompts)",
+          "Testes de robustez, red teaming e testes adversariais",
+          "Métricas de justiça: paridade demográfica, equalized odds, igualdade de oportunidade",
+          "Impossibilidade de satisfazer simultaneamente todas as definições de justiça",
+          "Avaliação por subgrupos e testes com dados fora da distribuição",
+          "Revisão independente antes da liberação e critérios de bloqueio",
+        ],
+      },
+      {
+        titulo: "Implantação",
+        itens: [
+          "Portão de governança: aprovação formal e registro antes de ir para produção",
+          "Implantação faseada, canário, teste A/B e plano de reversão (rollback)",
+          "Transparência no ponto de uso: avisos, rótulos de conteúdo sintético, limitações",
+          "Mecanismos de supervisão humana efetivos (e não meramente decorativos)",
+          "Capacitação de operadores e literacia em IA para usuários internos",
+          "Documentação entregue a quem implanta (instruções de uso)",
+        ],
+      },
+      {
+        titulo: "Monitoramento, manutenção e descomissionamento",
+        itens: [
+          "Monitoramento contínuo de desempenho, drift, incidentes e uso indevido",
+          "Registros (logs), rastreabilidade e retenção de evidências para auditoria",
+          "Gatilhos de retreinamento e gestão de mudanças do modelo",
+          "Canais de feedback, contestação, correção e reparação para afetados",
+          "Resposta a incidentes de IA e comunicação a reguladores e afetados",
+          "Descomissionamento: desligamento seguro, arquivamento e descarte de dados e modelos",
+          "Aprendizado pós-incidente realimentando o design",
+        ],
+      },
+    ],
+  },
+  {
+    id: "d4",
+    numero: "IV",
+    titulo: "Implementando Governança e Gestão de Risco de IA Responsável",
+    peso: 22,
+    resumo: "O maior domínio do exame. Estruturas, papéis, políticas, avaliação de risco, documentação e terceiros.",
+    topicos: [
+      {
+        titulo: "Alinhamento com estratégia, cultura e maturidade",
+        itens: [
+          "Alinhar a governança de IA aos objetivos, valores e apetite ao risco da organização",
+          "Business case da governança: custo de controlar x custo do dano e da não conformidade",
+          "Tone at the top, incentivos e cultura de reportar problemas",
+          "Programa de literacia em IA por público (executivos, desenvolvedores, usuários)",
+          "Modelos de maturidade e roadmap faseado de implementação",
+          "Gestão de mudança e resistência interna",
+        ],
+      },
+      {
+        titulo: "Papéis, responsabilidades e estrutura organizacional",
+        itens: [
+          "Conselho e alta direção: supervisão e responsabilização final",
+          "Comitê de ética / conselho de revisão de IA: composição e poder de veto",
+          "Funções envolvidas: jurídico, privacidade, segurança, dados, produto, RH, compras, auditoria",
+          "Três linhas de defesa aplicadas a sistemas de IA",
+          "Modelos centralizado, federado e híbrido; centro de excelência",
+          "Relação entre governança de IA, DPO e programa de privacidade existente",
+          "Matriz RACI para decisões do ciclo de vida",
+        ],
+      },
+      {
+        titulo: "Políticas, padrões e frameworks",
+        itens: [
+          "Política de IA: escopo, usos proibidos, aprovações e exceções",
+          "Política específica de IA generativa e de uso de ferramentas externas",
+          "Inventário/registro de sistemas de IA com classificação de risco",
+          "NIST AI RMF 1.0: funções Govern, Map, Measure, Manage",
+          "NIST AI RMF Playbook e Generative AI Profile",
+          "ISO/IEC 42001 (sistema de gestão de IA) e ciclo PDCA",
+          "ISO/IEC 23894 (gestão de risco de IA) e ISO/IEC 22989 (terminologia)",
+          "Integração com ISO 31000, COSO ERM, ISO/IEC 27001 e SOC 2",
+          "Mapeamento de controles: reaproveitar o que já existe em privacidade e segurança",
+        ],
+      },
+      {
+        titulo: "Gestão de risco de IA",
+        itens: [
+          "Identificar, analisar, avaliar, tratar, monitorar e comunicar riscos",
+          "Matriz probabilidade x severidade; risco inerente, controles e risco residual",
+          "Definição de tolerância e critérios de aceitação de risco",
+          "Riscos contextuais: mesmo modelo, risco diferente conforme o uso",
+          "Riscos de IA generativa: alucinação, vazamento de dados, propriedade intelectual, conteúdo tóxico",
+          "Prompt injection direta e indireta, jailbreak e exfiltração por saída",
+          "Ataques a modelos: envenenamento de dados, inversão, inferência de pertencimento, extração de modelo, evasão",
+          "Segurança da cadeia de suprimentos de modelos e pesos",
+          "Plano de resposta a incidentes de IA, playbooks e comunicação de crise",
+        ],
+      },
+      {
+        titulo: "Avaliações de impacto, auditoria e conformidade",
+        itens: [
+          "Avaliação de impacto algorítmico (AIA): escopo, método e participantes",
+          "Avaliação de impacto sobre direitos fundamentais (FRIA) — art. 27 do EU AI Act",
+          "DPIA e teste de legítimo interesse: como se relacionam com a AIA",
+          "Avaliação de conformidade do EU AI Act: interna x organismo notificado, marcação CE",
+          "Auditoria interna, auditoria de terceira parte e certificação",
+          "Sandboxes regulatórios e testes em condições reais",
+          "KPIs e KRIs de governança de IA e relatórios ao conselho",
+          "Evidências: o que guardar para demonstrar conformidade",
+        ],
+      },
+      {
+        titulo: "Documentação e transparência",
+        itens: [
+          "Documentação técnica exigida pelo EU AI Act (Anexo IV) e registros automáticos",
+          "Model cards, system cards e fact sheets",
+          "Datasheets for datasets e documentação de proveniência",
+          "Instruções de uso para quem implanta o sistema",
+          "Avisos ao usuário final e divulgação de interação com IA",
+          "Marcação de conteúdo sintético: watermarking, C2PA e metadados de proveniência",
+          "Explicações significativas para decisões automatizadas individuais",
+          "Transparência externa: relatórios públicos e políticas divulgadas",
+        ],
+      },
+      {
+        titulo: "Terceiros, aquisição e contratos",
+        itens: [
+          "Due diligence de fornecedores de modelos, dados e aplicações de IA",
+          "Perguntas essenciais no questionário de fornecedor de IA",
+          "Cláusulas contratuais: uso de dados para treinamento, PI, indenização, auditoria, subprocessadores",
+          "Alocação de responsabilidade entre provider, deployer, importador e distribuidor",
+          "Quando quem implanta vira provider (rebranding, mudança substancial de finalidade)",
+          "Uso de componentes open-source e obrigações de licença",
+          "Shadow AI: uso não autorizado por colaboradores e como detectar",
+          "Monitoramento contínuo do fornecedor e plano de saída",
+        ],
+      },
+    ],
+  },
+  {
+    id: "d5",
+    numero: "V",
+    titulo: "Leis Atuais Aplicáveis a Sistemas de IA",
+    peso: 13,
+    resumo: "Nenhuma lei nova é necessária para punir um sistema de IA. Este domínio cobre o direito que já se aplica.",
+    topicos: [
+      {
+        titulo: "Não discriminação e direitos civis",
+        itens: [
+          "Leis de igualdade em emprego, crédito, moradia e acesso a bens e serviços",
+          "Exemplos dos EUA: Title VII, ADA, ADEA, ECOA, Fair Housing Act",
+          "Regra dos quatro quintos (4/5) e análise de impacto desigual",
+          "Ônus da prova: justificativa de necessidade do negócio e alternativa menos discriminatória",
+          "Aplicação a triagem de currículos, precificação e concessão de crédito",
+          "Direito antidiscriminatório na UE e diretivas de igualdade",
+        ],
+      },
+      {
+        titulo: "Privacidade e proteção de dados",
+        itens: [
+          "GDPR: bases legais, minimização, limitação de finalidade, exatidão e limitação de retenção",
+          "Artigo 22 do GDPR: decisões automatizadas, exceções e salvaguardas",
+          "Direito a intervenção humana, a expressar ponto de vista e a contestar",
+          "Direitos dos titulares aplicados a dados de treinamento e a modelos",
+          "Dados sensíveis (art. 9) e o uso de proxies e inferências",
+          "DPIA obrigatória e consulta prévia à autoridade",
+          "Transferências internacionais e treinamento de modelos fora do país",
+          "LGPD (Brasil), CCPA/CPRA e leis estaduais dos EUA, PIPEDA (Canadá)",
+        ],
+      },
+      {
+        titulo: "Propriedade intelectual",
+        itens: [
+          "Direito autoral sobre dados de treinamento; fair use e exceções de mineração de textos e dados",
+          "Titularidade de conteúdo gerado por IA e a exigência de autoria humana",
+          "Riscos de saída substancialmente similar a obra protegida",
+          "Patentes: invenções assistidas por IA e requisito de inventor humano",
+          "Segredo de negócio, engenharia reversa e proteção de pesos do modelo",
+          "Licenças de modelos e datasets; licenças restritas de uso responsável",
+          "Direito de imagem, voz e semelhança em deepfakes",
+        ],
+      },
+      {
+        titulo: "Consumidor, produto e responsabilidade civil",
+        itens: [
+          "Práticas desleais e enganosas (FTC Act §5) e enforcement sobre alegações de IA",
+          "AI washing: alegar capacidades que o sistema não tem",
+          "Disgorgement algorítmico: ordem de apagar modelos treinados com dados ilícitos",
+          "Segurança do produto, recall e regimes de vigilância de mercado",
+          "Teorias de responsabilidade: negligência, produto defeituoso, responsabilidade objetiva",
+          "Diretiva de Responsabilidade por Produtos da UE atualizada para software e IA",
+          "Contratos, limitações de responsabilidade e alocação de risco entre as partes",
+        ],
+      },
+      {
+        titulo: "Regimes setoriais e trabalhistas",
+        itens: [
+          "Saúde: HIPAA, software como dispositivo médico e supervisão da FDA/ANVISA",
+          "Serviços financeiros: SR 11-7 (risco de modelo), crédito justo e explicação de negativa",
+          "Seguros: regulação estadual dos EUA e modelos de subscrição",
+          "Emprego: monitoramento de trabalhadores, consulta a sindicatos e informação prévia",
+          "Setor público: devido processo, transparência e contratação pública",
+          "Concorrência: precificação algorítmica, colusão tácita e uso de dados de mercado",
+        ],
+      },
+    ],
+  },
+  {
+    id: "d6",
+    numero: "VI",
+    titulo: "Leis e Padrões de IA Existentes e Emergentes",
+    peso: 20,
+    resumo: "EU AI Act em profundidade, panorama dos EUA e demais jurisdições, e os padrões técnicos que sustentam a conformidade.",
+    topicos: [
+      {
+        titulo: "EU AI Act — estrutura e escopo",
+        itens: [
+          "Objetivo, base jurídica de mercado interno e efeito extraterritorial",
+          "Definição de sistema de IA e exclusões (militar, pesquisa, uso pessoal não profissional)",
+          "Papéis regulados: provider, deployer, importador, distribuidor, representante autorizado",
+          "Abordagem baseada em risco: inaceitável, alto, transparência limitada, mínimo",
+          "Práticas proibidas (art. 5): manipulação subliminar e exploração de vulnerabilidades",
+          "Proibições: pontuação social, policiamento preditivo individual, raspagem não direcionada de faces",
+          "Proibições: inferência de emoções no trabalho e na educação, categorização biométrica sensível",
+          "Identificação biométrica remota em tempo real: proibição e exceções para autoridades",
+          "Alto risco Anexo I (componentes de segurança de produtos) e Anexo III (casos de uso)",
+          "Filtro do art. 6(3): quando um sistema do Anexo III não é considerado de alto risco",
+          "Obrigações de transparência do art. 50: chatbots, deepfakes e conteúdo sintético rotulado",
+        ],
+      },
+      {
+        titulo: "EU AI Act — obrigações, GPAI e governança",
+        itens: [
+          "Provider de alto risco: sistema de gestão de qualidade e sistema de gestão de risco",
+          "Governança de dados, documentação técnica, registros automáticos e rastreabilidade",
+          "Acurácia, robustez e cibersegurança; supervisão humana projetada (art. 14)",
+          "Avaliação de conformidade, declaração UE, marcação CE e registro na base de dados da UE",
+          "Monitoramento pós-mercado e relato de incidentes graves",
+          "Deployer: usar conforme instruções, garantir competência humana, monitorar e reter logs",
+          "Deployer: dados de entrada relevantes, informar trabalhadores e pessoas afetadas",
+          "FRIA obrigatória para determinados deployers (art. 27)",
+          "Art. 25: quando o deployer assume as obrigações de provider",
+          "GPAI: documentação, política de direitos autorais e resumo público dos dados de treinamento",
+          "GPAI com risco sistêmico: limiar de computação, avaliações, red teaming e relato de incidentes",
+          "Código de práticas para GPAI e normas harmonizadas",
+          "Governança: AI Office, AI Board, painel científico, autoridades nacionais",
+          "Sandboxes regulatórios e apoio a PMEs",
+          "Sanções: até 35 M€ ou 7% do faturamento global (práticas proibidas) e escalas menores",
+          "Cronograma escalonado de aplicação a partir da entrada em vigor",
+          "Art. 4: obrigação de literacia em IA; art. 86: direito à explicação de decisão individual",
+        ],
+      },
+      {
+        titulo: "Estados Unidos",
+        itens: [
+          "Abordagem setorial e por agências, sem lei federal abrangente",
+          "Ordens executivas sobre IA e a volatilidade da política federal",
+          "NIST AI RMF 1.0 como padrão voluntário de referência e seu Generative AI Profile",
+          "Blueprint for an AI Bill of Rights: cinco princípios",
+          "Enforcement por FTC, EEOC, CFPB, DOJ e reguladores estaduais",
+          "Colorado AI Act (SB 24-205): dever de cuidado contra discriminação algorítmica",
+          "NYC Local Law 144: auditoria de viés de AEDT e notificação a candidatos",
+          "Illinois: BIPA (biometria) e AI Video Interview Act",
+          "Califórnia: regras de decisão automatizada, transparência de IA generativa e leis de deepfake",
+          "Utah AI Policy Act e obrigações de divulgação",
+          "Leis estaduais de privacidade com direito de opt-out de profiling",
+        ],
+      },
+      {
+        titulo: "Outras jurisdições",
+        itens: [
+          "Canadá: AIDA (Bill C-27) e a Diretiva sobre Tomada de Decisão Automatizada",
+          "Reino Unido: abordagem pró-inovação, cinco princípios e reguladores setoriais",
+          "China: regras de recomendação algorítmica, deep synthesis e IA generativa; registro de algoritmos",
+          "Brasil: PL 2338/2023, classificação de risco e interface com a LGPD",
+          "Coreia do Sul: lei-quadro de IA; Japão: abordagem leve e diretrizes",
+          "Singapura: Model AI Governance Framework e AI Verify",
+          "Conselho da Europa: Convenção-Quadro sobre IA, direitos humanos, democracia e Estado de Direito",
+          "Iniciativas da ONU, OCDE e Parceria Global em IA (GPAI)",
+          "Efeito Bruxelas e o desafio da fragmentação regulatória",
+        ],
+      },
+      {
+        titulo: "Padrões técnicos e certificação",
+        itens: [
+          "ISO/IEC 42001: requisitos do sistema de gestão de IA e certificabilidade",
+          "ISO/IEC 23894, 22989, 24028, 24027, 5338 e 42005 (avaliação de impacto)",
+          "Série IEEE 7000 e Ethically Aligned Design",
+          "CEN-CENELEC JTC 21 e o papel das normas harmonizadas da UE",
+          "NIST SP 1270 (viés) e NIST AI 100-2 (taxonomia de ataques adversariais)",
+          "Presunção de conformidade a partir de normas harmonizadas",
+          "Como padrões viram controles auditáveis no dia a dia",
+        ],
+      },
+    ],
+  },
+  {
+    id: "d7",
+    numero: "VII",
+    titulo: "Questões Contínuas e Preparação Final",
+    peso: 8,
+    resumo: "Temas em aberto, preocupações sociais e a reta final de revisão para o exame.",
+    topicos: [
+      {
+        titulo: "Questões jurídicas em aberto",
+        itens: [
+          "Litígios sobre direito autoral e uso de obras em treinamento",
+          "Responsabilidade por conteúdo gerado e por agentes autônomos que agem no mundo",
+          "Personalidade jurídica, atribuição de culpa e o problema das muitas mãos",
+          "Fragmentação regulatória, conflito de leis e compliance multijurisdicional",
+          "Tensão entre segredo comercial e exigência de transparência",
+        ],
+      },
+      {
+        titulo: "Preocupações de usuários e da sociedade",
+        itens: [
+          "Confiança, antropomorfização e dependência excessiva (automation bias)",
+          "Deepfakes, fraude por clonagem de voz e integridade eleitoral",
+          "Impacto no trabalho: automação, requalificação e vigilância de produtividade",
+          "Acessibilidade, inclusão digital e equidade entre o Norte e o Sul global",
+          "Efeitos sobre crianças, adolescentes e populações vulneráveis",
+          "Saúde mental, companheiros artificiais e manipulação afetiva",
+        ],
+      },
+      {
+        titulo: "Futuro da IA e da governança",
+        itens: [
+          "IA agêntica: autonomia, delegação e limites de ação",
+          "Segurança de fronteira, avaliações de capacidade perigosa e compromissos voluntários",
+          "Open-weights x modelos fechados: trade-off entre inovação e controle",
+          "Sustentabilidade computacional e limites físicos de escala",
+          "Governança internacional: interoperabilidade, tratados e cooperação",
+          "O papel do profissional de governança nos próximos cinco anos",
+        ],
+      },
+      {
+        titulo: "Preparação para o exame",
+        itens: [
+          "Revisar o Body of Knowledge e o Exam Blueprint oficiais do IAPP",
+          "Formato: questões de múltipla escolha baseadas em cenário, com tempo cronometrado",
+          "Estratégia: identificar o papel (provider x deployer) antes de responder",
+          "Estratégia: procurar a MELHOR resposta, não apenas uma resposta correta",
+          "Eliminar alternativas extremas (sempre, nunca, proibir tudo)",
+          "Decorar taxonomias: níveis de risco do EU AI Act e funções do NIST AI RMF",
+          "Simulados cronometrados e revisão dos erros por domínio",
+          "Revisão espaçada dos domínios com menor desempenho",
+          "Checklist final: sanções, prazos, artigos-chave e definições",
+        ],
+      },
+    ],
+  },
+];
+
+/* =====================================================================
+ * REGRAS DA CAMPANHA
+ * ===================================================================== */
+const XP_POR_MINUTO = 1;
+const XP_POR_ITEM = 40;
+const XP_POR_DOMINIO = 250;
+const HP_BASE = 100;
+const HP_POR_NIVEL = 10;
+const CURA_META = 12;
+const CURA_PARCIAL = 6;
+const DANO_MAXIMO = 28;
+
+const PATENTES = [
+  "Aspirante",
+  "Neófito Scout",
+  "Irmão de Batalha",
+  "Irmão Veterano",
+  "Sargento",
+  "Sargento Veterano",
+  "Tenente",
+  "Capitão",
+  "Campeão da Companhia",
+  "Mestre do Capítulo",
+];
+
+const HONRAS = [
+  { id: "primeiro", icone: "🩸", nome: "Primeiro Sangue", desc: "Registrar a 1ª sessão", teste: (e) => e.sessoes >= 1 },
+  { id: "vigilia", icone: "🕯", nome: "Vigília", desc: "10 horas acumuladas", teste: (e) => e.minutos >= 600 },
+  { id: "guerra", icone: "⚔️", nome: "Guerra Total", desc: "50 horas acumuladas", teste: (e) => e.minutos >= 3000 },
+  { id: "ferro", icone: "🛡", nome: "Disciplina de Ferro", desc: "7 dias seguidos", teste: (e) => e.melhorSeq >= 7 },
+  { id: "fe", icone: "✝︎", nome: "Fé Inabalável", desc: "30 dias seguidos", teste: (e) => e.melhorSeq >= 30 },
+  { id: "purgacao", icone: "🔥", nome: "Purgação", desc: "Concluir um domínio", teste: (e) => e.dominiosCompletos >= 1 },
+  { id: "cruzada", icone: "🏰", nome: "Cruzada", desc: "Concluir 4 domínios", teste: (e) => e.dominiosCompletos >= 4 },
+  { id: "codex", icone: "📕", nome: "Codex Completo", desc: "100% do currículo", teste: (e) => e.pctTotal >= 100 },
+  { id: "escriba", icone: "✒️", nome: "Escriba", desc: "20 tópicos anotados", teste: (e) => e.notas >= 20 },
+  { id: "intacto", icone: "💠", nome: "Sem Baixas", desc: "14 dias sem perder vida", teste: (e) => e.maiorSemDano >= 14 },
+];
+
+/* ---------------------------- utilidades ---------------------------- */
+const $ = (s, raiz = document) => raiz.querySelector(s);
+const $$ = (s, raiz = document) => Array.from(raiz.querySelectorAll(s));
+const escapar = (t) =>
+  String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function isoDe(d) {
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function deIso(s) {
+  const [a, m, d] = String(s).split("-").map(Number);
+  return new Date(a, m - 1, d);
+}
+const isoHoje = () => isoDe(new Date());
+function somaDias(iso, n) {
+  const d = deIso(iso);
+  d.setDate(d.getDate() + n);
+  return isoDe(d);
+}
+const diffDias = (a, b) => Math.round((deIso(b) - deIso(a)) / 86400000);
+function dataCurta(iso) {
+  const d = deIso(iso);
+  return String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0");
+}
+function horasMin(min) {
+  const h = Math.floor(min / 60);
+  const m = Math.round(min % 60);
+  return h > 0 ? h + "h" + (m ? String(m).padStart(2, "0") : "") : m + "min";
+}
+// Escala calibrada para uma campanha inteira: 275 itens (11.000 XP) + bônus de
+// domínio + ~12 semanas de estudo dão perto de 18.000 XP, que é exatamente o
+// limiar de Mestre do Capítulo. Chegar ao topo custa o Codex inteiro.
+const limiarNivel = (n) => 200 * (n - 1) * n;
+const nivelDe = (xp) => Math.max(1, Math.floor((1 + Math.sqrt(1 + xp / 50)) / 2));
+const patenteDe = (n) => (n <= PATENTES.length ? PATENTES[n - 1] : PATENTES[PATENTES.length - 1] + " ★" + (n - PATENTES.length));
+
+/* ------------------------- índice do currículo ------------------------ */
+const ITENS = []; // lista plana de todos os itens verificáveis
+const POR_DOMINIO = {}; // id do domínio -> ids dos itens
+CURRICULO.forEach((dom) => {
+  POR_DOMINIO[dom.id] = [];
+  dom.topicos.forEach((top, ti) => {
+    top.codigo = dom.numero + "." + (ti + 1);
+    top.id = dom.id + "." + (ti + 1);
+    top.itensIds = [];
+    top.itens.forEach((texto, ii) => {
+      const id = dom.id + "." + (ti + 1) + "." + (ii + 1);
+      ITENS.push({ id, texto, dominio: dom.id, topico: top.id, tituloTopico: top.titulo });
+      top.itensIds.push(id);
+      POR_DOMINIO[dom.id].push(id);
+    });
+  });
+});
+const TOTAL_ITENS = ITENS.length;
+
+/* ------------------------------- estado ------------------------------- */
+const CHAVE = "codex_aigp_v1";
+
+function planoPadrao(inicio, semanas) {
+  const pesoTotal = CURRICULO.reduce((s, d) => s + d.peso, 0);
+  const dias = Math.max(7, Math.round(semanas * 7));
+  const plano = {};
+  let cursor = 0;
+  CURRICULO.forEach((dom, i) => {
+    const duracao = Math.max(4, Math.round((dom.peso / pesoTotal) * dias));
+    const ini = somaDias(inicio, cursor);
+    // As fases se sobrepõem em um dia para não deixar buraco visual no gráfico.
+    const fim = somaDias(ini, duracao - 1);
+    plano[dom.id] = { inicio: ini, fim };
+    cursor += duracao;
+    if (i === CURRICULO.length - 1) plano[dom.id].fim = somaDias(inicio, Math.max(cursor - 1, dias - 1));
+  });
+  return plano;
+}
+
+function estadoPadrao() {
+  const hoje = isoHoje();
+  return {
+    versao: 1,
+    tema: "ultramar",
+    config: {
+      inicioCampanha: hoje,
+      dataProva: "",
+      metaMinutos: 45,
+      danoBase: 8,
+      diasDescanso: [0], // 0 = domingo
+      semanasPlano: 12,
+      nome: "",
+    },
+    itens: {}, // id -> { feito: true, data: "AAAA-MM-DD" }
+    notas: {}, // id -> texto
+    sessoes: [], // { id, data, minutos, dominio, nota }
+    plano: planoPadrao(hoje, 12),
+  };
+}
+
+let estado = estadoPadrao();
+let armazenamentoOk = true;
+
+function carregar() {
+  try {
+    const bruto = localStorage.getItem(CHAVE);
+    if (!bruto) return;
+    const dados = JSON.parse(bruto);
+    estado = Object.assign(estadoPadrao(), dados);
+    estado.config = Object.assign(estadoPadrao().config, dados.config || {});
+    estado.itens = dados.itens || {};
+    estado.notas = dados.notas || {};
+    estado.sessoes = Array.isArray(dados.sessoes) ? dados.sessoes : [];
+    estado.plano = dados.plano && Object.keys(dados.plano).length ? dados.plano : planoPadrao(estado.config.inicioCampanha, estado.config.semanasPlano);
+    CURRICULO.forEach((d) => {
+      if (!estado.plano[d.id]) estado.plano[d.id] = planoPadrao(estado.config.inicioCampanha, estado.config.semanasPlano)[d.id];
+    });
+  } catch (e) {
+    console.warn("Não consegui ler os dados salvos:", e);
+  }
+}
+
+let pendenteSalvar = null;
+function salvar() {
+  clearTimeout(pendenteSalvar);
+  pendenteSalvar = setTimeout(() => {
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(estado));
+      armazenamentoOk = true;
+    } catch (e) {
+      armazenamentoOk = false;
+      brindar("⚠️ Não consegui salvar. Exporte um backup em Ajustes.");
+    }
+  }, 120);
+}
+
+/* ============================ SIMULAÇÃO ============================== *
+ * A vida do personagem é sempre recalculada do zero a partir do
+ * histórico de sessões. Assim, registrar uma sessão esquecida de ontem
+ * desfaz o ataque tyranid daquele dia — nada fica preso em estado velho.
+ * ===================================================================== */
+function simular() {
+  const cfg = estado.config;
+  const hoje = isoHoje();
+  let inicio = cfg.inicioCampanha || hoje;
+  if (diffDias(inicio, hoje) < 0) inicio = hoje;
+  if (diffDias(inicio, hoje) > 1500) inicio = somaDias(hoje, -1500);
+
+  // minutos estudados por dia
+  const minPorDia = {};
+  estado.sessoes.forEach((s) => {
+    if (!s || !s.data) return;
+    minPorDia[s.data] = (minPorDia[s.data] || 0) + Math.max(0, Number(s.minutos) || 0);
+  });
+
+  // XP de itens concluídos, creditado no dia da conclusão
+  const xpPorDia = {};
+  const creditar = (data, valor) => {
+    const d = data && diffDias(inicio, data) >= 0 && diffDias(data, hoje) >= 0 ? data : inicio;
+    xpPorDia[d] = (xpPorDia[d] || 0) + valor;
+  };
+  let feitos = 0;
+  ITENS.forEach((it) => {
+    const reg = estado.itens[it.id];
+    if (reg && reg.feito) {
+      feitos++;
+      creditar(reg.data, XP_POR_ITEM);
+    }
+  });
+
+  // bônus por domínio inteiro concluído
+  const progressoDominio = {};
+  let dominiosCompletos = 0;
+  CURRICULO.forEach((dom) => {
+    const ids = POR_DOMINIO[dom.id];
+    const ok = ids.filter((id) => estado.itens[id] && estado.itens[id].feito);
+    progressoDominio[dom.id] = { feitos: ok.length, total: ids.length, pct: Math.round((ok.length / ids.length) * 100) };
+    if (ok.length === ids.length && ids.length) {
+      dominiosCompletos++;
+      const ultima = ok.map((id) => estado.itens[id].data).filter(Boolean).sort().pop();
+      creditar(ultima, XP_POR_DOMINIO);
+    }
+  });
+
+  let hp = HP_BASE;
+  let xp = 0;
+  let seq = 0;
+  let melhorSeq = 0;
+  let faltasSeguidas = 0;
+  let semDano = 0;
+  let maiorSemDano = 0;
+  let totalDano = 0;
+  let totalMinutos = 0;
+  let diasEstudados = 0;
+  let derrotas = 0;
+  let caido = false;
+  const log = [];
+  const descanso = new Set(cfg.diasDescanso || []);
+
+  let dia = inicio;
+  for (let guarda = 0; guarda < 2000; guarda++) {
+    const min = minPorDia[dia] || 0;
+    xp += min * XP_POR_MINUTO + (xpPorDia[dia] || 0);
+    const nivel = nivelDe(xp);
+    const hpMax = HP_BASE + (nivel - 1) * HP_POR_NIVEL;
+
+    if (min > 0) {
+      totalMinutos += min;
+      diasEstudados++;
+      const cura = min >= cfg.metaMinutos ? CURA_META : CURA_PARCIAL;
+      const antes = hp;
+      hp = Math.min(hpMax, hp + cura);
+      seq++;
+      faltasSeguidas = 0;
+      semDano++;
+      log.push({
+        data: dia,
+        tipo: "estudo",
+        texto: caido
+          ? `Apotecário estabiliza o irmão — ${horasMin(min)} de estudo`
+          : `${horasMin(min)} de estudo${min >= cfg.metaMinutos ? " — meta batida" : ""}`,
+        delta: hp - antes,
+      });
+      caido = false;
+    } else if (dia !== hoje) {
+      if (descanso.has(deIso(dia).getDay())) {
+        semDano++;
+        log.push({ data: dia, tipo: "descanso", texto: "Dia de descanso autorizado pelo Codex", delta: 0 });
+      } else {
+        faltasSeguidas++;
+        seq = 0;
+        const dano = Math.min(DANO_MAXIMO, (cfg.danoBase || 8) + (faltasSeguidas - 1) * 4);
+        hp -= dano;
+        totalDano += dano;
+        maiorSemDano = Math.max(maiorSemDano, semDano);
+        semDano = 0;
+        log.push({
+          data: dia,
+          tipo: "ataque",
+          texto: faltasSeguidas === 1 ? "Nenhum estudo — esporos tyranid detectados" : `${faltasSeguidas}º dia sem estudo — o enxame avança`,
+          delta: -dano,
+        });
+      }
+    }
+    if (seq > melhorSeq) melhorSeq = seq;
+    hp = Math.max(0, Math.min(hp, hpMax));
+    if (hp === 0 && !caido) {
+      caido = true;
+      derrotas++;
+      log.push({ data: dia, tipo: "queda", texto: "O irmão caiu. O enxame o cobre — só o estudo o levanta.", delta: 0 });
+    }
+    if (dia === hoje) break;
+    dia = somaDias(dia, 1);
+  }
+  maiorSemDano = Math.max(maiorSemDano, semDano);
+
+  const nivel = nivelDe(xp);
+  const hpMax = HP_BASE + (nivel - 1) * HP_POR_NIVEL;
+  const xpNivel = limiarNivel(nivel);
+  const xpProximo = limiarNivel(nivel + 1);
+  const estudouHoje = (minPorDia[hoje] || 0) > 0;
+  const notas = Object.values(estado.notas).filter((t) => t && t.trim()).length;
+
+  const est = {
+    hp,
+    hpMax,
+    pctHp: Math.round((hp / hpMax) * 100),
+    xp: Math.round(xp),
+    nivel,
+    patente: patenteDe(nivel),
+    xpNivel,
+    xpProximo,
+    pctNivel: Math.min(100, Math.round(((xp - xpNivel) / (xpProximo - xpNivel)) * 100)),
+    seq,
+    melhorSeq,
+    faltasSeguidas,
+    minutos: totalMinutos,
+    minutosHoje: minPorDia[hoje] || 0,
+    diasEstudados,
+    sessoes: estado.sessoes.length,
+    totalDano,
+    derrotas,
+    maiorSemDano,
+    estudouHoje,
+    log: log.slice().reverse(),
+    feitos,
+    pctTotal: TOTAL_ITENS ? Math.round((feitos / TOTAL_ITENS) * 100) : 0,
+    progressoDominio,
+    dominiosCompletos,
+    notas,
+    minPorDia,
+    inicio,
+  };
+  est.honras = HONRAS.map((h) => ({ ...h, ganha: !!h.teste(est) }));
+  return est;
+}
+
+/* ------------------------------ desenhos ------------------------------ */
+function svgMarine(nivel, pctHp) {
+  const dano = Math.max(0, 100 - pctHp) / 100;
+  const louros = nivel >= 6;
+  const coroa = nivel >= 9;
+  const brilho = (0.3 + (pctHp / 100) * 0.7).toFixed(2);
+  const rachaduras =
+    dano > 0.25
+      ? `<g stroke="var(--fundo)" stroke-width="2.2" fill="none" opacity="${(0.45 + dano * 0.55).toFixed(2)}" stroke-linecap="round">
+           <path d="M74 48 l-8 13 l7 6 l-10 11" />
+           ${dano > 0.5 ? '<path d="M134 56 l9 9 l-8 8 l8 11" />' : ""}
+           ${dano > 0.7 ? '<path d="M62 118 l12 5 l-4 9" /><path d="M150 186 l-16 8" />' : ""}
+         </g>`
+      : "";
+  const sangue = dano > 0.55 ? `<path d="M126 96 q5 20 -1 34" stroke="var(--perigo)" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round"/>` : "";
+  return `
+  <svg viewBox="0 0 200 236" role="img" aria-label="Retrato do Astartes, patente ${escapar(patenteDe(nivel))}, vida ${pctHp}%">
+    <defs>
+      <linearGradient id="gArm" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--acento)" stop-opacity="1"/>
+        <stop offset="1" stop-color="var(--acento)" stop-opacity="0.6"/>
+      </linearGradient>
+      <linearGradient id="gElmo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--acento)" stop-opacity="1"/>
+        <stop offset="1" stop-color="var(--acento)" stop-opacity="0.72"/>
+      </linearGradient>
+    </defs>
+
+    <!-- peito, atrás das ombreiras -->
+    <path d="M62 236 v-52 q0 -16 16 -21 h44 q16 5 16 21 v52 z" fill="var(--painel-2)" stroke="var(--borda)" stroke-width="2"/>
+    <path d="M100 168 v68" stroke="var(--borda)" stroke-width="2"/>
+    ${coroa ? '<path d="M100 158 l7 12 l-7 12 l-7 -12 z" fill="var(--ouro)" opacity="0.9"/>' : ""}
+
+    <!-- ombreiras -->
+    <path d="M4 236 v-40 q0 -32 24 -44 q14 -8 32 -8 v92 z" fill="url(#gArm)" stroke="var(--borda)" stroke-width="2.5"/>
+    <path d="M196 236 v-40 q0 -32 -24 -44 q-14 -8 -32 -8 v92 z" fill="url(#gArm)" stroke="var(--borda)" stroke-width="2.5"/>
+    <path d="M4 208 q28 -12 56 -12 M196 208 q-28 -12 -56 -12" stroke="var(--borda)" stroke-width="2" fill="none" opacity="0.7"/>
+    <circle cx="33" cy="212" r="14" fill="var(--fundo-2)" stroke="var(--ouro)" stroke-width="2"/>
+    <text x="33" y="218" text-anchor="middle" font-size="15" fill="var(--ouro)" font-family="serif">${escapar(String(Math.min(nivel, 10)))}</text>
+
+    <!-- gorjal -->
+    <path d="M78 124 h44 l9 24 h-62 z" fill="var(--fundo-2)" stroke="var(--borda)" stroke-width="2"/>
+
+    <!-- capacete -->
+    <path d="M54 100 Q54 26 100 26 Q146 26 146 100 L146 112 Q146 130 100 134 Q54 130 54 112 Z"
+          fill="url(#gElmo)" stroke="var(--borda)" stroke-width="2.5"/>
+    <!-- sobrancelha -->
+    <path d="M57 72 Q100 58 143 72 L143 80 Q100 67 57 80 Z" fill="var(--fundo-2)" opacity="0.4"/>
+    <!-- lentes -->
+    <path d="M61 82 L92 74 L92 95 L63 99 Z" fill="var(--ouro)" opacity="${brilho}"/>
+    <path d="M139 82 L108 74 L108 95 L137 99 Z" fill="var(--ouro)" opacity="${brilho}"/>
+    <!-- crista nasal -->
+    <path d="M94 70 h12 v32 h-12 z" fill="url(#gElmo)" stroke="var(--borda)" stroke-width="1.5"/>
+    <!-- respirador -->
+    <path d="M83 98 h34 v20 q0 12 -17 14 q-17 -2 -17 -14 z" fill="var(--fundo-2)" stroke="var(--borda)" stroke-width="2"/>
+    <g stroke="var(--borda)" stroke-width="2" opacity="0.9"><path d="M88 106 h24"/><path d="M88 114 h24"/><path d="M90 122 h20"/></g>
+    <!-- crista superior -->
+    <path d="M90 34 Q100 10 110 34 Z" fill="var(--ouro)" opacity="0.9"/>
+    ${louros
+      ? `<g stroke="var(--ouro)" fill="none" stroke-linecap="round" opacity="0.92">
+           <path d="M44 116 q-16 -32 2 -58" stroke-width="4"/>
+           <path d="M156 116 q16 -32 -2 -58" stroke-width="4"/>
+           <g stroke-width="3">
+             <path d="M42 104 q-11 -3 -13 -12"/><path d="M38 86 q-11 -2 -14 -11"/><path d="M38 68 q-10 -3 -12 -12"/>
+             <path d="M158 104 q11 -3 13 -12"/><path d="M162 86 q11 -2 14 -11"/><path d="M162 68 q10 -3 12 -12"/>
+           </g>
+         </g>`
+      : ""}
+    ${rachaduras}
+    ${sangue}
+  </svg>`;
+}
+
+function svgTyranid(intensidade) {
+  return `<svg viewBox="0 0 40 40" aria-hidden="true">
+    <path d="M20 4 q10 5 12 15 q2 10 -6 17 q-6 4 -12 0 q-8 -7 -6 -17 q2 -10 12 -15 z" fill="var(--perigo)" opacity="${intensidade}"/>
+    <path d="M13 18 l-8 -9 M27 18 l8 -9" stroke="var(--perigo)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="${intensidade}"/>
+    <circle cx="15" cy="20" r="2.6" fill="var(--fundo)"/><circle cx="25" cy="20" r="2.6" fill="var(--fundo)"/>
+    <path d="M14 30 l3 4 l3 -4 l3 4 l3 -4" stroke="var(--fundo)" stroke-width="1.8" fill="none"/>
+  </svg>`;
+}
+
+/* ============================ VISTA: CAMPANHA ========================= */
+function renderCampanha() {
+  const e = simular();
+  const cfg = estado.config;
+  const classeVida = e.pctHp <= 25 ? "critico" : e.pctHp <= 55 ? "ferido" : "";
+  const ameaca = e.faltasSeguidas;
+  const enxame = Math.min(8, ameaca + (e.pctHp <= 40 ? 2 : 0) + (e.estudouHoje ? 0 : 1));
+
+  let situacao, classeSituacao;
+  if (e.hp <= 0) {
+    situacao = "CAÍDO EM COMBATE — retome hoje para reerguer o irmão";
+    classeSituacao = "mal";
+  } else if (e.pctHp <= 25) {
+    situacao = "CRÍTICO — o enxame está em cima";
+    classeSituacao = "mal";
+  } else if (e.pctHp <= 55) {
+    situacao = "FERIDO — segure a linha";
+    classeSituacao = "aviso";
+  } else if (e.estudouHoje) {
+    situacao = "LINHA MANTIDA — estudo registrado hoje";
+    classeSituacao = "ok";
+  } else {
+    situacao = "EM ALERTA — nenhum estudo hoje ainda";
+    classeSituacao = "aviso";
+  }
+
+  const diasProva = cfg.dataProva ? diffDias(isoHoje(), cfg.dataProva) : null;
+  const ritmoNecessario = (() => {
+    if (diasProva === null || diasProva <= 0) return null;
+    const restam = TOTAL_ITENS - e.feitos;
+    return restam > 0 ? (restam / diasProva).toFixed(1) : "0";
+  })();
+
+  const proximos = ITENS.filter((it) => !(estado.itens[it.id] && estado.itens[it.id].feito)).slice(0, 5);
+
+  $("#vista-campanha").innerHTML = `
+    <div class="cartao">
+      <div class="painel-heroi">
+        <div class="retrato">${svgMarine(e.nivel, e.pctHp)}</div>
+        <div>
+          <div class="patente-linha">
+            <span class="patente">${escapar(e.patente)}</span>
+            <span class="selo">Nível ${e.nivel}</span>
+            <span class="selo ${classeSituacao}">${escapar(situacao)}</span>
+          </div>
+          <p class="legenda" style="margin:6px 0 16px">${cfg.nome ? escapar(cfg.nome) + " · " : ""}campanha iniciada em ${dataCurta(e.inicio)}</p>
+
+          <div class="rotulo-barra"><span>Integridade da armadura</span><b>${e.hp} / ${e.hpMax}</b></div>
+          <div class="barra barra-vida ${classeVida}"><i style="width:${e.pctHp}%"></i></div>
+
+          <div class="rotulo-barra" style="margin-top:14px"><span>Progresso para ${escapar(patenteDe(e.nivel + 1))}</span><b>${e.xp - e.xpNivel} / ${e.xpProximo - e.xpNivel} XP</b></div>
+          <div class="barra barra-xp"><i style="width:${e.pctNivel}%"></i></div>
+
+          <div class="enxame">${
+            enxame === 0
+              ? '<span class="legenda">Setor limpo. Nenhum xenos à vista.</span>'
+              : Array.from({ length: enxame }, (_, i) => svgTyranid(Math.min(1, 0.6 + i * 0.06).toFixed(2))).join("")
+          }</div>
+          <p class="legenda">${
+            e.estudouHoje
+              ? `Você estudou ${horasMin(e.minutosHoje)} hoje. Meta diária: ${cfg.metaMinutos} min.`
+              : `Sem estudo hoje. Se o dia virar em branco, o enxame tira ${Math.min(DANO_MAXIMO, (cfg.danoBase || 8) + e.faltasSeguidas * 4)} de vida.`
+          }</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="numeros" style="margin-top:16px">
+      <div class="numero"><b>${e.pctTotal}%</b><span>Currículo</span></div>
+      <div class="numero"><b>${e.seq}</b><span>Dias seguidos</span></div>
+      <div class="numero"><b>${horasMin(e.minutos)}</b><span>Tempo total</span></div>
+      <div class="numero"><b>${diasProva === null ? "—" : diasProva}</b><span>Dias p/ prova</span></div>
+    </div>
+
+    <h2 class="titulo-secao">Frente de batalha por domínio</h2>
+    <div class="cartao">
+      <table class="lista">
+        <thead><tr><th>Domínio</th><th class="num">Peso</th><th class="num">Itens</th><th style="width:34%">Avanço</th></tr></thead>
+        <tbody>
+          ${CURRICULO.map((d) => {
+            const p = e.progressoDominio[d.id];
+            return `<tr>
+              <td><b>${d.numero}.</b> ${escapar(d.titulo)}</td>
+              <td class="num">${d.peso}%</td>
+              <td class="num">${p.feitos}/${p.total}</td>
+              <td><div class="mini-barra" style="margin:6px 0"><i style="width:${p.pct}%;background:${p.pct === 100 ? "var(--bom)" : "var(--acento)"}"></i></div></td>
+            </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+      ${ritmoNecessario ? `<p class="legenda" style="margin-top:12px">Para zerar o currículo até a prova você precisa fechar <b>${ritmoNecessario} itens por dia</b>.</p>` : ""}
+    </div>
+
+    <div class="grade grade-2" style="margin-top:16px">
+      <div class="cartao">
+        <h3>Próximos alvos</h3>
+        <p class="legenda">Os primeiros itens ainda não marcados, na ordem do currículo.</p>
+        <ul class="itens" style="margin-top:10px">
+          ${
+            proximos.length
+              ? proximos
+                  .map(
+                    (it) => `<li class="item"><div class="item-linha">
+                      <button class="marca-caixa" data-marcar="${it.id}" aria-label="Marcar como estudado">✓</button>
+                      <div class="item-texto">${escapar(it.texto)}<div class="legenda">${escapar(it.tituloTopico)}</div></div>
+                    </div></li>`
+                  )
+                  .join("")
+              : '<li class="legenda">Currículo inteiro concluído. O Codex está fechado, irmão.</li>'
+          }
+        </ul>
+      </div>
+      <div class="cartao">
+        <h3>Registro de combate</h3>
+        <p class="legenda">Os 30 eventos mais recentes da campanha, do mais novo para o mais antigo.</p>
+        <ul class="registro-combate" style="margin-top:8px;padding:0">
+          ${
+            e.log.length
+              ? e.log
+                  .slice(0, 30)
+                  .map(
+                    (l) => `<li>
+                      <time>${dataCurta(l.data)}</time>
+                      <span style="flex:1">${escapar(l.texto)}</span>
+                      <span class="${l.delta < 0 ? "dano" : l.delta > 0 ? "cura" : "legenda"}">${
+                        l.delta > 0 ? "+" + l.delta : l.delta < 0 ? l.delta : l.tipo === "estudo" ? "vida cheia" : "—"
+                      }</span>
+                    </li>`
+                  )
+                  .join("")
+              : '<li class="legenda">A campanha começa hoje. Registre a primeira sessão.</li>'
+          }
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="titulo-secao">Honras do capítulo</h2>
+    <div class="honras">
+      ${e.honras
+        .map(
+          (h) => `<div class="honra ${h.ganha ? "ganha" : ""}">
+            <div class="icone">${h.icone}</div><b>${escapar(h.nome)}</b><small>${escapar(h.desc)}</small>
+          </div>`
+        )
+        .join("")}
+    </div>
+  `;
+
+  $$("#vista-campanha [data-marcar]").forEach((b) =>
+    b.addEventListener("click", () => {
+      alternarItem(b.dataset.marcar, true);
+    })
+  );
+}
+
+/* ============================ VISTA: CURRÍCULO ======================= */
+const ui = { busca: "", filtro: "todos", abertos: null, notasAbertas: new Set() };
+
+function estaFeito(id) {
+  return !!(estado.itens[id] && estado.itens[id].feito);
+}
+
+function alternarItem(id, valor) {
+  const novo = valor === undefined ? !estaFeito(id) : !!valor;
+  if (novo) estado.itens[id] = { feito: true, data: isoHoje() };
+  else delete estado.itens[id];
+  salvar();
+  if (novo) {
+    brindar(`+${XP_POR_ITEM} XP — ${simular().pctTotal}% do Codex dominado`);
+  }
+  atualizarTudo();
+}
+
+// A casca (busca, filtro, barra de progresso) é montada uma vez; só a lista
+// é redesenhada a cada tecla, senão o campo de busca perde o foco no iPad.
+function renderCurriculo() {
+  if (ui.abertos === null) {
+    // Na primeira abertura, deixa aberto o primeiro domínio incompleto.
+    ui.abertos = new Set();
+    const alvo = CURRICULO.find((d) => POR_DOMINIO[d.id].some((id) => !estaFeito(id)));
+    if (alvo) ui.abertos.add(alvo.id);
+  }
+  const e = simular();
+
+  $("#vista-curriculo").innerHTML = `
+    <div class="ferramentas">
+      <div class="busca"><input type="text" id="busca" placeholder="Buscar tópico, lei, artigo…" value="${escapar(ui.busca)}" /></div>
+      <select id="filtro" style="width:auto;min-width:150px">
+        <option value="todos">Todos os itens</option>
+        <option value="pendentes">Só pendentes</option>
+        <option value="feitos">Só estudados</option>
+        <option value="anotados">Só anotados</option>
+      </select>
+      <button class="btn btn-fantasma" id="btnExpandir">Abrir tudo</button>
+      <button class="btn btn-fantasma" id="btnRecolher">Fechar tudo</button>
+    </div>
+    <div class="cartao" style="margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <div class="rotulo-barra"><span>Codex dominado</span><b>${e.feitos} de ${TOTAL_ITENS} itens</b></div>
+        <div class="barra barra-xp"><i style="width:${e.pctTotal}%"></i></div>
+      </div>
+      <div class="numero" style="min-width:110px"><b>${e.pctTotal}%</b><span>Concluído</span></div>
+    </div>
+    <div id="listaCurriculo"></div>
+  `;
+  $("#filtro").value = ui.filtro;
+
+  let esperaBusca = null;
+  const campoBusca = $("#busca");
+  campoBusca.addEventListener("input", () => {
+    ui.busca = campoBusca.value;
+    clearTimeout(esperaBusca);
+    esperaBusca = setTimeout(renderListaCurriculo, 140);
+  });
+  $("#filtro").addEventListener("change", (ev) => {
+    ui.filtro = ev.target.value;
+    renderListaCurriculo();
+  });
+  $("#btnExpandir").addEventListener("click", () => {
+    CURRICULO.forEach((d) => ui.abertos.add(d.id));
+    renderListaCurriculo();
+  });
+  $("#btnRecolher").addEventListener("click", () => {
+    ui.abertos.clear();
+    renderListaCurriculo();
+  });
+
+  renderListaCurriculo();
+}
+
+function renderListaCurriculo() {
+  const e = simular();
+  const busca = ui.busca.trim().toLowerCase();
+  const passaFiltro = (id, texto) => {
+    if (ui.filtro === "pendentes" && estaFeito(id)) return false;
+    if (ui.filtro === "feitos" && !estaFeito(id)) return false;
+    if (ui.filtro === "anotados" && !(estado.notas[id] || "").trim()) return false;
+    if (busca && !texto.toLowerCase().includes(busca)) return false;
+    return true;
+  };
+
+  const corpo = CURRICULO.map((dom) => {
+    const p = e.progressoDominio[dom.id];
+    const topicos = dom.topicos
+      .map((top) => {
+        const itens = top.itens
+          .map((texto, i) => ({ id: top.itensIds[i], texto }))
+          .filter((it) => passaFiltro(it.id, it.texto + " " + top.titulo + " " + dom.titulo));
+        if (!itens.length) return "";
+        return `<div class="topico">
+          <h4><span class="cod">${top.codigo}</span> ${escapar(top.titulo)}</h4>
+          <ul class="itens">
+            ${itens
+              .map((it) => {
+                const nota = estado.notas[it.id] || "";
+                const aberta = ui.notasAbertas.has(it.id);
+                return `<li class="item ${estaFeito(it.id) ? "feito" : ""}" data-item="${it.id}">
+                  <div class="item-linha">
+                    <button class="marca-caixa" data-alternar="${it.id}" aria-pressed="${estaFeito(it.id)}" aria-label="Marcar como estudado">✓</button>
+                    <div class="item-texto">${escapar(it.texto)}</div>
+                    <button class="btn-nota ${nota.trim() ? "tem" : ""}" data-nota="${it.id}" aria-label="Anotações deste tópico">✎</button>
+                  </div>
+                  <div class="nota-caixa" data-caixa="${it.id}" ${aberta ? "" : "hidden"}>
+                    <textarea data-texto="${it.id}" placeholder="Suas anotações, mnemônicos, artigos e dúvidas sobre este ponto…">${escapar(nota)}</textarea>
+                  </div>
+                </li>`;
+              })
+              .join("")}
+          </ul>
+        </div>`;
+      })
+      .filter(Boolean)
+      .join("");
+
+    if (!topicos) return "";
+    const aberto = ui.abertos.has(dom.id) || busca || ui.filtro !== "todos";
+    return `<details class="dominio" ${aberto ? "open" : ""} data-dominio="${dom.id}">
+      <summary class="dominio-cabeca">
+        <span class="seta">▶</span>
+        <div style="flex:1;min-width:0">
+          <h3>${dom.numero}. ${escapar(dom.titulo)}</h3>
+          <div class="mini-barra"><i style="width:${p.pct}%;background:${p.pct === 100 ? "var(--bom)" : "var(--acento)"}"></i></div>
+        </div>
+        <span class="pct">${p.feitos}/${p.total} · ${p.pct}%</span>
+      </summary>
+      <div class="dominio-corpo">
+        <p class="legenda">${escapar(dom.resumo)} <b style="color:var(--texto)">Peso estimado: ${dom.peso}%.</b></p>
+        ${topicos}
+      </div>
+    </details>`;
+  })
+    .filter(Boolean)
+    .join("");
+
+  $("#listaCurriculo").innerHTML =
+    corpo || '<div class="cartao"><p class="legenda">Nada encontrado com esse filtro.</p></div>';
+
+  $$("#vista-curriculo .dominio").forEach((d) =>
+    d.addEventListener("toggle", () => {
+      if (d.open) ui.abertos.add(d.dataset.dominio);
+      else ui.abertos.delete(d.dataset.dominio);
+    })
+  );
+  $$("#vista-curriculo [data-alternar]").forEach((b) =>
+    b.addEventListener("click", () => alternarItem(b.dataset.alternar))
+  );
+  $$("#vista-curriculo [data-nota]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const id = b.dataset.nota;
+      const caixa = $(`[data-caixa="${CSS.escape(id)}"]`, $("#vista-curriculo"));
+      const abrir = caixa.hidden;
+      caixa.hidden = !abrir;
+      if (abrir) {
+        ui.notasAbertas.add(id);
+        caixa.querySelector("textarea").focus();
+      } else ui.notasAbertas.delete(id);
+    })
+  );
+  $$("#vista-curriculo [data-texto]").forEach((t) =>
+    t.addEventListener("input", () => {
+      const id = t.dataset.texto;
+      const valor = t.value;
+      if (valor.trim()) estado.notas[id] = valor;
+      else delete estado.notas[id];
+      const botao = $(`[data-nota="${CSS.escape(id)}"]`, $("#vista-curriculo"));
+      if (botao) botao.classList.toggle("tem", !!valor.trim());
+      salvar();
+    })
+  );
+}
+
+/* =========================== VISTA: CRONOGRAMA ======================= */
+function renderCronograma() {
+  const e = simular();
+  const cfg = estado.config;
+  const hoje = isoHoje();
+
+  const datas = CURRICULO.map((d) => estado.plano[d.id]).filter(Boolean);
+  let ini = datas.map((p) => p.inicio).sort()[0] || hoje;
+  let fim = datas.map((p) => p.fim).sort().pop() || somaDias(hoje, 84);
+  if (diffDias(ini, hoje) < 0) ini = hoje;
+  if (diffDias(hoje, fim) < 0) fim = hoje;
+  if (cfg.dataProva && diffDias(fim, cfg.dataProva) > 0) fim = cfg.dataProva;
+  const total = Math.max(7, diffDias(ini, fim) + 1);
+  const pos = (data) => (diffDias(ini, data) / total) * 100;
+
+  const marcas = [];
+  for (let d = 0; d < total; d += 7) {
+    const data = somaDias(ini, d);
+    marcas.push(`<span class="marca-semana" style="left:${(d / total) * 100}%">${dataCurta(data)}</span>`);
+  }
+  const hojeDentro = diffDias(ini, hoje) >= 0 && diffDias(hoje, fim) >= 0;
+  const linhaHoje = hojeDentro ? `<div class="linha-hoje" style="left:${pos(hoje)}%"></div>` : "";
+
+  const linhas = CURRICULO.map((dom) => {
+    const p = estado.plano[dom.id];
+    const prog = e.progressoDominio[dom.id];
+    const esquerda = pos(p.inicio);
+    const largura = Math.max(2.5, ((diffDias(p.inicio, p.fim) + 1) / total) * 100);
+    const atrasada = prog.pct < 100 && diffDias(p.fim, hoje) > 0;
+    const classe = prog.pct === 100 ? "concluida" : atrasada ? "atrasada" : "";
+    return `<div class="gantt-linha">
+      <div class="gantt-rotulo"><b>${dom.numero}.</b> ${escapar(dom.titulo)}</div>
+      <div class="gantt-trilho">
+        <div class="gantt-barra ${classe}" style="left:${esquerda}%;width:${largura}%" title="${dataCurta(p.inicio)} a ${dataCurta(p.fim)}">
+          <i style="width:${prog.pct}%"></i><b>${prog.pct}%</b>
+        </div>
+        ${linhaHoje}
+      </div>
+    </div>`;
+  }).join("");
+
+  const diasProva = cfg.dataProva ? diffDias(hoje, cfg.dataProva) : null;
+  const atrasados = CURRICULO.filter((d) => e.progressoDominio[d.id].pct < 100 && diffDias(estado.plano[d.id].fim, hoje) > 0);
+
+  $("#vista-cronograma").innerHTML = `
+    <div class="cartao">
+      <h3>Plano de campanha</h3>
+      <p class="legenda">A duração de cada fase é distribuída pelo peso do domínio na prova. Ajuste as datas à mão quando quiser.</p>
+      <div class="linha-campos tres" style="margin-top:14px">
+        <label class="campo"><span>Início da campanha</span><input type="date" id="cfgInicio" value="${escapar(cfg.inicioCampanha)}" /></label>
+        <label class="campo"><span>Semanas de estudo</span><input type="number" id="cfgSemanas" min="2" max="80" value="${cfg.semanasPlano}" /></label>
+        <label class="campo"><span>Data da prova</span><input type="date" id="cfgProva" value="${escapar(cfg.dataProva || "")}" /></label>
+      </div>
+      <div class="pilhas" style="margin-top:14px">
+        <button class="btn btn-primario" id="btnGerarPlano">Regenerar plano automático</button>
+        ${diasProva !== null ? `<span class="selo ${diasProva < 14 ? "mal" : diasProva < 45 ? "aviso" : "ok"}">${diasProva > 0 ? diasProva + " dias até a prova" : diasProva === 0 ? "A prova é hoje" : "Prova já passou"}</span>` : ""}
+      </div>
+      ${atrasados.length ? `<p class="aviso" style="margin-top:14px">Fases com prazo vencido e sem 100%: ${atrasados.map((d) => d.numero).join(", ")}. Reforce ou empurre as datas.</p>` : ""}
+    </div>
+
+    <h2 class="titulo-secao">Linha do tempo</h2>
+    <div class="gantt-envelope">
+      <div class="gantt">
+        <div class="gantt-cabeca">
+          <div class="gantt-rotulo">Domínio</div>
+          <div class="gantt-escala">${marcas.join("")}</div>
+        </div>
+        ${linhas}
+      </div>
+    </div>
+    <p class="legenda" style="margin-top:8px">A barra preenchida mostra o quanto do domínio já foi marcado como estudado. Borda vermelha = prazo vencido, verde = domínio fechado.</p>
+
+    <h2 class="titulo-secao">Datas de cada fase</h2>
+    <div class="editor-fases">
+      ${CURRICULO.map(
+        (dom) => `<div class="editor-fase">
+          <div><b>${dom.numero}.</b> ${escapar(dom.titulo)}<div class="legenda">${e.progressoDominio[dom.id].feitos}/${e.progressoDominio[dom.id].total} itens · peso ${dom.peso}%</div></div>
+          <label class="campo"><span>Início</span><input type="date" data-fase-inicio="${dom.id}" value="${escapar(estado.plano[dom.id].inicio)}" /></label>
+          <label class="campo"><span>Fim</span><input type="date" data-fase-fim="${dom.id}" value="${escapar(estado.plano[dom.id].fim)}" /></label>
+        </div>`
+      ).join("")}
+    </div>
+  `;
+
+  const salvarConfig = () => {
+    cfg.inicioCampanha = $("#cfgInicio").value || cfg.inicioCampanha;
+    cfg.semanasPlano = Math.max(2, Math.min(80, Number($("#cfgSemanas").value) || 12));
+    cfg.dataProva = $("#cfgProva").value || "";
+    salvar();
+    atualizarTudo();
+  };
+  ["#cfgInicio", "#cfgSemanas", "#cfgProva"].forEach((s) => $(s).addEventListener("change", salvarConfig));
+  $("#btnGerarPlano").addEventListener("click", () => {
+    estado.plano = planoPadrao(cfg.inicioCampanha, cfg.semanasPlano);
+    salvar();
+    brindar("Plano redistribuído pelo peso de cada domínio.");
+    atualizarTudo();
+  });
+  $$("#vista-cronograma [data-fase-inicio]").forEach((i) =>
+    i.addEventListener("change", () => {
+      const p = estado.plano[i.dataset.faseInicio];
+      p.inicio = i.value;
+      if (diffDias(p.inicio, p.fim) < 0) p.fim = p.inicio;
+      salvar();
+      renderCronograma();
+    })
+  );
+  $$("#vista-cronograma [data-fase-fim]").forEach((i) =>
+    i.addEventListener("change", () => {
+      const p = estado.plano[i.dataset.faseFim];
+      p.fim = i.value;
+      if (diffDias(p.inicio, p.fim) < 0) p.inicio = p.fim;
+      salvar();
+      renderCronograma();
+    })
+  );
+}
+
+/* ============================ VISTA: REGISTRO ======================== */
+function renderRegistro() {
+  const e = simular();
+  const sessoes = estado.sessoes.slice().sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
+
+  // últimos 21 dias, para ver o ritmo de relance
+  const barras = [];
+  const meta = estado.config.metaMinutos || 45;
+  for (let i = 20; i >= 0; i--) {
+    const d = somaDias(isoHoje(), -i);
+    const min = e.minPorDia[d] || 0;
+    const altura = Math.min(100, (min / (meta * 2)) * 100);
+    const cor = min >= meta ? "var(--bom)" : min > 0 ? "var(--alerta)" : "var(--borda)";
+    barras.push(
+      `<div title="${dataCurta(d)}: ${horasMin(min)}" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:80px">
+        <div style="background:${cor};height:${Math.max(3, altura)}%;border-radius:4px 4px 0 0"></div>
+      </div>`
+    );
+  }
+
+  $("#vista-registro").innerHTML = `
+    <div class="cartao">
+      <h3>Ritmo dos últimos 21 dias</h3>
+      <p class="legenda">Verde = meta diária de ${meta} min batida. Amarelo = estudo parcial. Cinza = dia em branco.</p>
+      <div style="display:flex;gap:3px;align-items:flex-end;margin-top:14px">${barras.join("")}</div>
+      <div class="numeros" style="margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+        <div class="numero"><b>${e.sessoes}</b><span>Sessões</span></div>
+        <div class="numero"><b>${e.diasEstudados}</b><span>Dias com estudo</span></div>
+        <div class="numero"><b>${e.melhorSeq}</b><span>Melhor sequência</span></div>
+        <div class="numero"><b>${e.totalDano}</b><span>Vida perdida</span></div>
+        <div class="numero"><b>${e.derrotas}</b><span>Quedas em combate</span></div>
+      </div>
+    </div>
+
+    <h2 class="titulo-secao">Sessões registradas</h2>
+    <div class="cartao">
+      <div class="pilhas" style="margin-bottom:12px">
+        <button class="btn btn-primario" id="btnNovaSessao">⚔︎ Registrar estudo</button>
+      </div>
+      ${
+        sessoes.length
+          ? `<table class="lista">
+              <thead><tr><th>Data</th><th class="num">Tempo</th><th>Domínio</th><th>Nota</th><th></th></tr></thead>
+              <tbody>
+                ${sessoes
+                  .map((s) => {
+                    const dom = CURRICULO.find((d) => d.id === s.dominio);
+                    return `<tr>
+                      <td class="num">${dataCurta(s.data)}</td>
+                      <td class="num">${horasMin(s.minutos)}</td>
+                      <td>${dom ? dom.numero + ". " + escapar(dom.titulo) : "<span class='legenda'>geral</span>"}</td>
+                      <td>${escapar(s.nota || "")}</td>
+                      <td><button class="btn btn-mini btn-perigo" data-apagar="${s.id}">Apagar</button></td>
+                    </tr>`;
+                  })
+                  .join("")}
+              </tbody>
+            </table>`
+          : '<p class="legenda">Nenhuma sessão ainda. Cada minuto registrado vira XP e cura a armadura.</p>'
+      }
+    </div>
+  `;
+
+  $("#btnNovaSessao").addEventListener("click", abrirModalSessao);
+  $$("#vista-registro [data-apagar]").forEach((b) =>
+    b.addEventListener("click", () => {
+      estado.sessoes = estado.sessoes.filter((s) => s.id !== b.dataset.apagar);
+      salvar();
+      atualizarTudo();
+    })
+  );
+}
+
+/* ============================= VISTA: AJUSTES ======================== */
+const NOMES_DIAS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+function renderAjustes() {
+  const cfg = estado.config;
+  $("#vista-ajustes").innerHTML = `
+    <div class="cartao">
+      <h3>Regras da campanha</h3>
+      <p class="legenda">A vida é sempre recalculada do zero pelo histórico. Mudar estes números reescreve a campanha inteira na hora.</p>
+      <div class="linha-campos dois" style="margin-top:14px">
+        <label class="campo"><span>Nome do irmão</span><input type="text" id="ajNome" placeholder="Ex.: Irmão Fernando" value="${escapar(cfg.nome || "")}" /></label>
+        <label class="campo"><span>Meta diária (minutos)</span><input type="number" id="ajMeta" min="5" max="600" value="${cfg.metaMinutos}" /></label>
+        <label class="campo"><span>Dano por dia perdido</span><input type="number" id="ajDano" min="1" max="25" value="${cfg.danoBase}" /></label>
+        <label class="campo"><span>Início da campanha</span><input type="date" id="ajInicio" value="${escapar(cfg.inicioCampanha)}" /></label>
+      </div>
+      <div style="margin-top:16px">
+        <span class="legenda" style="display:block;margin-bottom:8px">Dias de descanso (sem ataque tyranid)</span>
+        <div class="pilhas">
+          ${NOMES_DIAS.map(
+            (n, i) =>
+              `<button class="btn btn-mini ${(cfg.diasDescanso || []).includes(i) ? "btn-primario" : "btn-fantasma"}" data-dia="${i}">${n}</button>`
+          ).join("")}
+        </div>
+      </div>
+      <p class="legenda" style="margin-top:14px">Dano cresce 4 pontos a cada dia perdido seguido, até ${DANO_MAXIMO}. Estudar cura ${CURA_META} (meta batida) ou ${CURA_PARCIAL} (parcial). Cada nível soma ${HP_POR_NIVEL} de vida máxima.</p>
+    </div>
+
+    <h2 class="titulo-secao">Backup dos dados</h2>
+    <div class="cartao">
+      <p class="legenda">Tudo vive só no armazenamento deste navegador. Se você limpar os dados do Safari ou trocar de iPad, some. Exporte de vez em quando.</p>
+      <div class="pilhas" style="margin-top:12px">
+        <button class="btn btn-primario" id="btnExportar">⤓ Baixar backup</button>
+        <button class="btn" id="btnCopiar">⧉ Copiar JSON</button>
+        <button class="btn" id="btnImportar">⤒ Restaurar backup</button>
+      </div>
+      <input type="file" id="arquivoImportar" accept="application/json,.json" hidden />
+      ${armazenamentoOk ? "" : '<p class="aviso" style="margin-top:12px">O navegador está bloqueando o armazenamento local. Saia da navegação privada, senão nada será salvo.</p>'}
+    </div>
+
+    <h2 class="titulo-secao">Zona de perigo</h2>
+    <div class="cartao">
+      <div class="pilhas">
+        <button class="btn btn-perigo" id="btnZerarProgresso">Desmarcar todos os itens</button>
+        <button class="btn btn-perigo" id="btnZerarTudo">Apagar tudo e recomeçar</button>
+      </div>
+    </div>
+
+    <h2 class="titulo-secao">Sobre o conteúdo</h2>
+    <div class="cartao">
+      <p class="legenda">
+        O currículo aqui é um roteiro de estudo montado a partir da estrutura pública do exame AIGP do IAPP:
+        ${TOTAL_ITENS} itens em ${CURRICULO.length} domínios. Os percentuais de peso são estimativas para você
+        priorizar o esforço — o Body of Knowledge e o Exam Blueprint oficiais do IAPP são a fonte final e mudam
+        de versão para versão. Confira no site do IAPP antes de fechar seu plano.
+      </p>
+    </div>
+  `;
+
+  const num = (v, min, max, padrao) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : padrao;
+  };
+  $("#ajNome").addEventListener("change", (ev) => { cfg.nome = ev.target.value; salvar(); atualizarTudo(); });
+  $("#ajMeta").addEventListener("change", (ev) => { cfg.metaMinutos = num(ev.target.value, 5, 600, 45); salvar(); atualizarTudo(); });
+  $("#ajDano").addEventListener("change", (ev) => { cfg.danoBase = num(ev.target.value, 1, 25, 8); salvar(); atualizarTudo(); });
+  $("#ajInicio").addEventListener("change", (ev) => { cfg.inicioCampanha = ev.target.value || cfg.inicioCampanha; salvar(); atualizarTudo(); });
+  $$("#vista-ajustes [data-dia]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const d = Number(b.dataset.dia);
+      const lista = new Set(cfg.diasDescanso || []);
+      if (lista.has(d)) lista.delete(d); else lista.add(d);
+      cfg.diasDescanso = Array.from(lista).sort();
+      salvar();
+      atualizarTudo();
+    })
+  );
+
+  $("#btnExportar").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(estado, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `codex-aigp-${isoHoje()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  });
+  $("#btnCopiar").addEventListener("click", async () => {
+    const texto = JSON.stringify(estado);
+    try {
+      await navigator.clipboard.writeText(texto);
+      brindar("Backup copiado. Cole em algum lugar seguro.");
+    } catch (err) {
+      abrirModal(
+        "Copie este backup",
+        `<textarea style="min-height:220px" readonly>${escapar(texto)}</textarea>`,
+        [{ rotulo: "Fechar", acao: fecharModal }]
+      );
+    }
+  });
+  $("#btnImportar").addEventListener("click", () => $("#arquivoImportar").click());
+  $("#arquivoImportar").addEventListener("change", (ev) => {
+    const arq = ev.target.files && ev.target.files[0];
+    if (!arq) return;
+    const leitor = new FileReader();
+    leitor.onload = () => {
+      try {
+        const dados = JSON.parse(String(leitor.result));
+        if (!dados || typeof dados !== "object") throw new Error("formato");
+        localStorage.setItem(CHAVE, JSON.stringify(dados));
+        carregar();
+        ui.abertos = null;
+        aplicarTema(estado.tema || "ultramar");
+        brindar("Backup restaurado.");
+        atualizarTudo();
+      } catch (err) {
+        brindar("⚠️ Arquivo inválido — nada foi alterado.");
+      }
+    };
+    leitor.readAsText(arq);
+    ev.target.value = "";
+  });
+
+  $("#btnZerarProgresso").addEventListener("click", () =>
+    confirmar("Desmarcar todos os itens?", "Suas anotações e sessões continuam intactas.", () => {
+      estado.itens = {};
+      salvar();
+      atualizarTudo();
+    })
+  );
+  $("#btnZerarTudo").addEventListener("click", () =>
+    confirmar("Apagar tudo?", "Progresso, anotações, sessões e plano somem para sempre. Exporte um backup antes.", () => {
+      estado = estadoPadrao();
+      ui.abertos = null;
+      salvar();
+      atualizarTudo();
+    })
+  );
+}
+
+/* ============================ MODAL E AVISOS ========================= */
+function abrirModal(titulo, htmlCorpo, acoes) {
+  const modal = $("#modal");
+  modal.innerHTML = `<h3>${escapar(titulo)}</h3><div id="corpoModal">${htmlCorpo}</div>
+    <div class="modal-acoes">${acoes
+      .map((a, i) => `<button class="btn ${a.classe || "btn-fantasma"}" data-acao="${i}">${escapar(a.rotulo)}</button>`)
+      .join("")}</div>`;
+  $$("#modal [data-acao]").forEach((b) => b.addEventListener("click", () => acoes[Number(b.dataset.acao)].acao()));
+  $("#veu").hidden = false;
+}
+function fecharModal() {
+  $("#veu").hidden = true;
+  $("#modal").innerHTML = "";
+}
+function confirmar(titulo, texto, aoConfirmar) {
+  abrirModal(titulo, `<p class="legenda">${escapar(texto)}</p>`, [
+    { rotulo: "Cancelar", acao: fecharModal },
+    {
+      rotulo: "Confirmar",
+      classe: "btn-perigo",
+      acao: () => {
+        fecharModal();
+        aoConfirmar();
+      },
+    },
+  ]);
+}
+let brindeTimer = null;
+function brindar(msg) {
+  const el = $("#brinde");
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(brindeTimer);
+  brindeTimer = setTimeout(() => (el.hidden = true), 2600);
+}
+
+function abrirModalSessao() {
+  abrirModal(
+    "Registrar sessão de estudo",
+    `<div class="linha-campos dois">
+      <label class="campo"><span>Data</span><input type="date" id="sData" value="${isoHoje()}" max="${isoHoje()}" /></label>
+      <label class="campo"><span>Minutos</span><input type="number" id="sMin" min="5" max="600" step="5" value="${estado.config.metaMinutos}" /></label>
+    </div>
+    <label class="campo" style="margin-top:12px"><span>Domínio estudado</span>
+      <select id="sDom">
+        <option value="">Geral / revisão</option>
+        ${CURRICULO.map((d) => `<option value="${d.id}">${d.numero}. ${escapar(d.titulo)}</option>`).join("")}
+      </select>
+    </label>
+    <label class="campo" style="margin-top:12px"><span>O que rendeu (opcional)</span><input type="text" id="sNota" placeholder="Ex.: art. 5 do AI Act, simulado 12 erros" /></label>
+    <div class="pilhas" style="margin-top:12px">
+      ${[25, 45, 60, 90, 120].map((m) => `<button class="btn btn-mini btn-fantasma" data-rapido="${m}">${m} min</button>`).join("")}
+    </div>`,
+    [
+      { rotulo: "Cancelar", acao: fecharModal },
+      {
+        rotulo: "Confirmar baixa",
+        classe: "btn-primario",
+        acao: () => {
+          const minutos = Math.max(1, Math.min(600, Number($("#sMin").value) || 0));
+          const data = $("#sData").value || isoHoje();
+          if (diffDias(data, isoHoje()) < 0) return brindar("⚠️ Não dá para registrar estudo no futuro.");
+          estado.sessoes.push({
+            id: "s" + Date.now() + Math.random().toString(36).slice(2, 7),
+            data,
+            minutos,
+            dominio: $("#sDom").value || "",
+            nota: $("#sNota").value.trim(),
+          });
+          salvar();
+          fecharModal();
+          const e = simular();
+          brindar(
+            `+${minutos} XP · vida em ${e.hp}/${e.hpMax}` +
+              (minutos >= estado.config.metaMinutos ? " — meta do dia batida" : "")
+          );
+          atualizarTudo();
+        },
+      },
+    ]
+  );
+  $$("#modal [data-rapido]").forEach((b) =>
+    b.addEventListener("click", () => ($("#sMin").value = b.dataset.rapido))
+  );
+}
+
+/* ============================== NAVEGAÇÃO ============================ */
+let vistaAtual = "campanha";
+function trocarVista(nome) {
+  vistaAtual = nome;
+  $$(".aba").forEach((a) => a.setAttribute("aria-selected", String(a.dataset.vista === nome)));
+  $$(".vista").forEach((v) => v.classList.toggle("ativa", v.id === "vista-" + nome));
+  window.scrollTo(0, 0);
+  atualizarTudo();
+}
+
+function atualizarTudo() {
+  const y = window.scrollY;
+  if (vistaAtual === "campanha") renderCampanha();
+  else if (vistaAtual === "curriculo") renderCurriculo();
+  else if (vistaAtual === "cronograma") renderCronograma();
+  else if (vistaAtual === "registro") renderRegistro();
+  else if (vistaAtual === "ajustes") renderAjustes();
+  window.scrollTo(0, y);
+}
+
+function aplicarTema(t) {
+  document.documentElement.setAttribute("data-tema", t);
+  estado.tema = t;
+  $("#seletorTema").value = t;
+  const claro = t === "pergaminho" || t === "codex";
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", claro ? "#f2f5f9" : "#0a1020");
+  salvar();
+}
+
+/* ================================ INÍCIO ============================= */
+try {
+  localStorage.setItem("__teste_aigp", "1");
+  localStorage.removeItem("__teste_aigp");
+} catch (e) {
+  armazenamentoOk = false;
+}
+
+carregar();
+aplicarTema(estado.tema || "ultramar");
+
+$("#seletorTema").addEventListener("change", (ev) => aplicarTema(ev.target.value));
+$("#btnRegistrar").addEventListener("click", abrirModalSessao);
+$$(".aba").forEach((a) => a.addEventListener("click", () => trocarVista(a.dataset.vista)));
+$("#veu").addEventListener("click", (ev) => {
+  if (ev.target === $("#veu")) fecharModal();
+});
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape" && !$("#veu").hidden) fecharModal();
+});
+// Se o app ficou aberto de um dia para o outro, recalcula ao voltar.
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) atualizarTudo();
+});
+
+trocarVista("campanha");
+
+if (!armazenamentoOk) {
+  brindar("⚠️ Armazenamento bloqueado: saia da navegação privada para salvar.");
+}
+</script>
+</body>
+</html>

@@ -34,6 +34,11 @@ jobs:
 
       - run: npm run build
 
+      # O Codex AIGP é um HTML único e independente do Ateliê. Vai junto para o
+      # Pages só porque, servido por HTTPS, o Safari do iPad guarda o
+      # localStorage de forma confiável — em file:// ele apaga sem avisar.
+      - run: cp aigp.html dist/aigp.html
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
